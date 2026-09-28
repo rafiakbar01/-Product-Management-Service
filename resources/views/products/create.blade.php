@@ -14,7 +14,7 @@
                 <h3 class="fw-bold mb-0">Tambah Produk Baru</h3>
             </div>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
-                <i class="bi bi-shield-lock me-1"></i> Form Validated (Request Layer)
+                <i class="bi bi-shield-lock me-1"></i> Validasi Controller
             </span>
         </div>
 
