@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\ProductServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class ProductApiController
@@ -59,10 +58,23 @@ class ProductApiController extends Controller
     /**
      * Store new product via API.
      */
-    public function store(StoreProductRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:64|unique:products,sku',
+            'category_id' => 'required|exists:categories,id',
+            'product_type' => 'required|in:physical,digital,service',
+            'price' => 'required|numeric|min:0',
+            'cost_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'min_stock_alert' => 'required|integer|min:1',
+            'status' => 'required|in:active,inactive,draft',
+            'description' => 'nullable|string',
+        ]);
+
         $product = $this->productService->createProduct(
-            data: $request->validated(),
+            data: $validated,
             userIdentifier: 'API Client',
             ip: $request->ip(),
             userAgent: $request->userAgent()
@@ -92,11 +104,29 @@ class ProductApiController extends Controller
     /**
      * Update product via API.
      */
-    public function update(UpdateProductRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => [
+                'required',
+                'string',
+                'max:64',
+                \Illuminate\Validation\Rule::unique('products', 'sku')->ignore($id),
+            ],
+            'category_id' => 'required|exists:categories,id',
+            'product_type' => 'required|in:physical,digital,service',
+            'price' => 'required|numeric|min:0',
+            'cost_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'min_stock_alert' => 'required|integer|min:1',
+            'status' => 'required|in:active,inactive,draft',
+            'description' => 'nullable|string',
+        ]);
+
         $product = $this->productService->updateProduct(
             id: $id,
-            data: $request->validated(),
+            data: $validated,
             userIdentifier: 'API Client',
             ip: $request->ip(),
             userAgent: $request->userAgent()

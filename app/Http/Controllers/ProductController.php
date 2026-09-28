@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ProductServiceInterface;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 /**
@@ -61,9 +60,33 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:64|unique:products,sku',
+            'category_id' => 'required|exists:categories,id',
+            'product_type' => 'required|in:physical,digital,service',
+            'price' => 'required|numeric|min:0',
+            'cost_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'min_stock_alert' => 'required|integer|min:1',
+            'status' => 'required|in:active,inactive,draft',
+            'description' => 'nullable|string',
+        ], [
+            'name.required' => 'Nama produk wajib diisi.',
+            'sku.required' => 'SKU produk wajib diisi.',
+            'sku.unique' => 'SKU tersebut sudah terdaftar dalam sistem.',
+            'category_id.required' => 'Kategori produk wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'price.required' => 'Harga jual produk wajib diisi.',
+            'price.numeric' => 'Harga jual harus berupa angka valid.',
+            'price.min' => 'Harga jual tidak boleh kurang dari 0.',
+            'stock.required' => 'Jumlah stok awal produk wajib diisi.',
+            'stock.integer' => 'Jumlah stok harus berupa bilangan bulat.',
+            'stock.min' => 'Stok tidak boleh negatif.',
+            'min_stock_alert.required' => 'Batas minimum notifikasi stok wajib ditentukan.',
+        ]);
 
         $product = $this->productService->createProduct(
             data: $validated,
@@ -101,9 +124,32 @@ class ProductController extends Controller
     /**
      * Update the specified product in storage.
      */
-    public function update(UpdateProductRequest $request, int $id): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => [
+                'required',
+                'string',
+                'max:64',
+                \Illuminate\Validation\Rule::unique('products', 'sku')->ignore($id),
+            ],
+            'category_id' => 'required|exists:categories,id',
+            'product_type' => 'required|in:physical,digital,service',
+            'price' => 'required|numeric|min:0',
+            'cost_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'min_stock_alert' => 'required|integer|min:1',
+            'status' => 'required|in:active,inactive,draft',
+            'description' => 'nullable|string',
+        ], [
+            'name.required' => 'Nama produk wajib diisi.',
+            'sku.required' => 'SKU produk wajib diisi.',
+            'sku.unique' => 'SKU tersebut sudah terdaftar pada produk lain.',
+            'category_id.required' => 'Kategori produk wajib dipilih.',
+            'price.required' => 'Harga jual wajib diisi.',
+            'stock.required' => 'Jumlah stok wajib diisi.',
+        ]);
 
         $product = $this->productService->updateProduct(
             id: $id,
