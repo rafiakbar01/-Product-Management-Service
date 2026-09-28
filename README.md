@@ -1,59 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PRODUCT MANAGEMENT SERVICE
+### Proyek Uji Kompetensi Sertifikasi BNSP - Senior Programmer (KKNI Level 6)
+**Penyelenggara:** LSP / Jobhun  
+**Standar Skema:** Senior Programmer (FR.IA.04A & FR.IA.04B)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## 📌 Ringkasan Proyek
+Modul **Product Management Service** ini dikembangkan untuk mengelola siklus hidup data produk secara internal dalam ekosistem perusahaan digital. Arsitektur aplikasi dibangun di atas **Laravel 12 (PHP 8.2+)** dan basis data **MySQL 8 (InnoDB)** dengan menerapkan pola arsitektur **Service-Repository Pattern** yang kokoh, modular, dan mematuhi prinsip SOLID & OOP.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Fitur Utama & Pemenuhan Unit Kompetensi (SKKNI)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Kelompok Pekerjaan | Unit Kompetensi | Fitur yang Diimplementasikan |
+| :--- | :--- | :--- |
+| **1. Analisis & Perancangan** | J.620100.001 s/d 014 | - Analisis Tools (Laravel, MySQL, PHPUnit, Monolog)<br>- Normalisasi Skema Relasional 3NF & Composite Indexing<br>- Antarmuka Pengguna Responsif (Bootstrap 5) dengan Auto-Generate SKU<br>- Desain Arsitektur Service-Repository Pattern |
+| **2. Implementasi Modul** | J.620100.009 s/d 023 | - OOP murni (`ProductRepositoryInterface`, `ProductServiceInterface`)<br>- Algoritma CRUD & Pencarian Multi-Kolom dinamis<br>- Custom Exception Handling (`ProductNotFoundException`, `DuplicateSkuException`)<br>- Semantic Git Versioning terstruktur<br>- Pengujian Integrasi, Sistem, dan Stress Test Tool |
+| **3. Logging & Monitoring** | J.620100.042 s/d 048 | - Dual-Logging: Monolog File (`product-service.log`) & DB Audit Trail (`product_activity_logs`)<br>- Telemetri Latensi & RAM real-time via `PerformanceMonitoringMiddleware`<br>- Alert Notification Otomatis untuk stok kritis (&le; batas minimum)<br>- Laporan Analisis Dampak Perubahan & Evaluasi Optimasi |
+| **4. Dokumentasi & Penyajian** | J.620100.049 s/d 051 | - `docs/01_DOKUMENTASI_TEKNIS.md`<br>- `docs/02_DOKUMENTASI_PENGGUNA.md`<br>- `docs/03_LAPORAN_PENGUJIAN.md`<br>- `docs/04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md`<br>- `docs/05_PANDUAN_JAWABAN_ASESOR_FR_IA_04B.md`<br>- `presentation/index.html` (Slide Presentasi Reveal.js 30 Menit) |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Panduan Menjalankan Aplikasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Prasyarat:
+- Laragon (Apache/Nginx & MySQL Server Aktif)
+- PHP >= 8.2 dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`
+- Composer >= 2.0
 
-## Laravel Sponsors
+### 2. Konfigurasi Lingkungan:
+Pastikan file `.env` telah mengarah ke database MySQL:
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bnsp_product_management
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Migrasi & Seeding Data Awal:
+```bash
+php artisan migrate --seed
+```
 
-### Premium Partners
+### 4. Menjalankan Server Lokal:
+```bash
+php artisan serve
+```
+Akses di browser: **[http://localhost:8000](http://localhost:8000)** atau virtual host Laragon `http://bnsp-project.test`.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🧪 Pengujian & Benchmarking Mandiri
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Menjalankan Automated Tests (PHPUnit):
+```bash
+php artisan test
+```
 
-## Code of Conduct
+### 2. Menjalankan Stress & Load Testing:
+```bash
+php artisan product:stress-test --requests=200
+```
+*Menghasilkan metrik kecepatan throughput (RPS), latensi rata-rata (ms), P95 latency, dan penggunaan memori.*
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📑 Struktur Berkas Penting Proyek
+```
+bnsp-project/
+├── app/
+│   ├── Contracts/              # Interface OOP (Repository & Service Interface)
+│   ├── Repositories/           # Repository Pattern (ProductRepository)
+│   ├── Services/              # Service Pattern (ProductService, PerformanceMonitorService)
+│   ├── Http/Controllers/      # ProductController, MonitoringController, Api/ProductApiController
+│   ├── Http/Middleware/       # PerformanceMonitoringMiddleware
+│   ├── Http/Requests/         # Form Validation (Store & Update Product Request)
+│   ├── Exceptions/            # Custom Exceptions (ProductNotFound, DuplicateSku, InsufficientStock)
+│   └── Models/                # Product, Category, ProductActivityLog, PerformanceMetric
+├── docs/                      # 📑 Berkas Dokumentasi Resmi BNSP:
+│   ├── 01_DOKUMENTASI_TEKNIS.md
+│   ├── 02_DOKUMENTASI_PENGGUNA.md
+│   ├── 03_LAPORAN_PENGUJIAN.md
+│   ├── 04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md
+│   └── 05_PANDUAN_JAWABAN_ASESOR_FR_IA_04B.md (Contekan Lengkap Wawancara!)
+├── presentation/
+│   └── index.html             # 🖥️ Slide Presentasi Interaktif untuk Sesi Asesor (30 Menit)
+├── screenshots/               # 📸 Folder Tangkapan Layar Bukti Kerja Wajib
+└── routes/web.php             # Rute Web, API v1, dan Presentasi
+```
