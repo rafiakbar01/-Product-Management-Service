@@ -159,6 +159,11 @@
                             <i class="bi bi-code-slash me-1"></i> REST API v1
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary fw-semibold" href="{{ route('presentation.index') }}" target="_blank">
+                            <i class="bi bi-easel2-fill me-1"></i> Slide Presentasi (30m)
+                        </a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center gap-2">
                     <span class="metric-pill">

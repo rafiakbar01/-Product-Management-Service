@@ -24,3 +24,8 @@ Route::prefix('api/v1')->group(function () {
     Route::put('products/{id}', [ProductApiController::class, 'update'])->name('api.products.update');
     Route::delete('products/{id}', [ProductApiController::class, 'destroy'])->name('api.products.destroy');
 });
+
+// Presentation Slide Deck for BNSP Assessor
+Route::get('presentation', function () {
+    return response()->file(base_path('presentation/index.html'));
+})->name('presentation.index');
