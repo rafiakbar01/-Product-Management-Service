@@ -1,20 +1,20 @@
-# DIREKTORI DOKUMENTASI LENGKAP UJI KOMPETENSI BNSP
-## SKEMA: SENIOR PROGRAMMER (KKNI LEVEL 6)
-### Modul: IT Inventory — Product Management Service
+# DIREKTORI DOKUMENTASI LENGKAP
+## MODUL: IT INVENTORY — PRODUCT MANAGEMENT SERVICE
+### Enterprise Product Management System
 
-Berikut adalah daftar seluruh dokumen yang telah disusun sesuai dengan standar Kriteria Unjuk Kerja (KUK) BNSP dan Skema Sertifikasi Senior Programmer:
+Berikut adalah daftar seluruh dokumen yang telah disusun sesuai dengan standar praktik terbaik pengembangan perangkat lunak enterprise:
 
 ---
 
 ### 📂 Daftar Dokumen
 
-| No | Dokumen | Kode Unit Kompetensi | Deskripsi Singkat |
+| No | Dokumen | Kategori | Deskripsi Singkat |
 |:---:|:---|:---|:---|
-| **01** | [**01_DOKUMENTASI_TEKNIS.md**](./01_DOKUMENTASI_TEKNIS.md) | J.620100.049.01 | Dokumen spesifikasi teknis modul, analisis tools, diagram arsitektur Service-Repository, ERD, kontrak interface OOP, algoritma pencarian, dan REST API specs. |
-| **02** | [**02_DOKUMENTASI_PENGGUNA.md**](./02_DOKUMENTASI_PENGGUNA.md) | J.620100.051.01 | Panduan manual operasional pengguna/staf kantor untuk registrasi aset via modal, filter multi-kriteria, edit stok, inspeksi audit log, dan troubleshooting error. |
-| **03** | [**03_LAPORAN_PENGUJIAN.md**](./03_LAPORAN_PENGUJIAN.md) | J.620100.050.01 | Laporan hasil pengujian komprehensif: Integration Test (5 cases), System Test (8 cases), dan Stress/Load Test (200 requests, 238 RPS, 0% error). |
-| **04** | [**04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md**](./04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md) | J.620100.023.01 & J.620100.048.01 | Checklist hasil code review (PSR-12, SOLID, Security) serta analisis dampak perubahan pada optimasi database composite indexing & implementasi UX modal. |
-| **05** | [**05_PANDUAN_JAWABAN_ASESOR_FR_IA_04B.md**](./05_PANDUAN_JAWABAN_ASESOR_FR_IA_04B.md) | FR.IA.04B (Sesi Wawancara) | Kunci jawaban siap saji dan taktis untuk **16 pertanyaan wajib wawancara asesor** selama 30 menit sesi penilaian. |
+| **01** | [**01_DOKUMENTASI_TEKNIS.md**](./01_DOKUMENTASI_TEKNIS.md) | Technical Specification | Dokumen spesifikasi teknis modul, analisis tools, diagram arsitektur Service-Repository, ERD, kontrak interface OOP, algoritma pencarian, dan REST API specs. |
+| **02** | [**02_DOKUMENTASI_PENGGUNA.md**](./02_DOKUMENTASI_PENGGUNA.md) | User Manual | Panduan manual operasional pengguna/staf kantor untuk registrasi aset via modal, filter multi-kriteria, edit stok, inspeksi audit log, dan troubleshooting error. |
+| **03** | [**03_LAPORAN_PENGUJIAN.md**](./03_LAPORAN_PENGUJIAN.md) | Testing Report | Laporan hasil pengujian komprehensif: Integration Test (5 cases), System Test (8 cases), dan Stress/Load Test (200 requests, 238 RPS, 0% error). |
+| **04** | [**04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md**](./04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md) | Code Review & Impact Analysis | Checklist hasil code review (PSR-12, SOLID, Security) serta analisis dampak perubahan pada optimasi database composite indexing & implementasi UX modal. |
+| **05** | [**05_PANDUAN_IMPLEMENTASI.md**](./05_PANDUAN_IMPLEMENTASI.md) | Implementation Guide | Panduan implementasi teknis dan best practices untuk deployment modul di environment production. |
 
 ---
 

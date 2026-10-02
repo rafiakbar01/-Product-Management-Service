@@ -28,7 +28,7 @@ class StressTestProductService extends Command
     {
         $totalRequests = (int) $this->option('requests');
         $this->info("==================================================================");
-        $this->info("     PENGUJIAN STRESS & LOAD TEST       ");
+        $this->info("      PERFORMANCE STRESS TEST — PRODUCT MANAGEMENT SERVICE       ");
         $this->info("==================================================================");
         $this->line("Target Operasi : Multi-criteria Search & Product Query Filtering");
         $this->line("Jumlah Iterasi : {$totalRequests} request");

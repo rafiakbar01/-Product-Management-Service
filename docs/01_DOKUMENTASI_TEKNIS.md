@@ -3,10 +3,9 @@
 
 | Keterangan | Detail |
 |:---|:---|
-| **Nama Asesi** | *(Isi Nama Lengkap)* |
-| **Skema Sertifikasi** | Senior Programmer (KKNI Level 6) |
-| **Penyelenggara LSP** | Jobhun / LSP Informatika |
-| **Unit Kompetensi Utama** | SKKNI J.620100.011.02 |
+| **Versi Dokumen** | 1.0 |
+| **Kategori** | Technical Specification |
+| **Platform** | Enterprise Linux / Windows Server |
 | **Tanggal Dokumen** | 30 September 2026 |
 
 ---

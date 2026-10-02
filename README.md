@@ -1,7 +1,7 @@
 # PRODUCT MANAGEMENT SERVICE
-### Proyek Uji Kompetensi Sertifikasi BNSP - Senior Programmer (KKNI Level 6)
-**Penyelenggara:** LSP / Jobhun  
-**Standar Skema:** Senior Programmer (FR.IA.04A & FR.IA.04B)
+### Sistem Manajemen Inventaris IT Perusahaan Digital
+**Kategori:** Enterprise Product Management Module  
+**Standar:** Enterprise Architecture & Cloud-Ready Design
 
 ---
 
@@ -34,7 +34,7 @@ Pastikan file `.env` telah mengarah ke database MySQL:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=bnsp_product_management
+DB_DATABASE=product_management
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -48,7 +48,7 @@ php artisan migrate --seed
 ```bash
 php artisan serve
 ```
-Akses di browser: **[http://localhost:8000](http://localhost:8000)** atau virtual host Laragon `http://bnsp-project.test`.
+Akses di browser: **[http://localhost:8000](http://localhost:8000)** atau virtual host Laragon `http://product-management.test`.
 
 ---
 
@@ -79,14 +79,14 @@ bnsp-project/
 │   ├── Http/Requests/         # Form Validation (Store & Update Product Request)
 │   ├── Exceptions/            # Custom Exceptions (ProductNotFound, DuplicateSku, InsufficientStock)
 │   └── Models/                # Product, Category, ProductActivityLog, PerformanceMetric
-├── docs/                      # 📑 Berkas Dokumentasi Resmi BNSP:
+├── docs/                      # 📑 Berkas Dokumentasi Teknis & Panduan:
 │   ├── 01_DOKUMENTASI_TEKNIS.md
 │   ├── 02_DOKUMENTASI_PENGGUNA.md
 │   ├── 03_LAPORAN_PENGUJIAN.md
 │   ├── 04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md
-│   └── 05_PANDUAN_JAWABAN_ASESOR_FR_IA_04B.md (Contekan Lengkap Wawancara!)
+│   └── 05_PANDUAN_IMPLEMENTASI.md
 ├── presentation/
-│   └── index.html             # 🖥️ Slide Presentasi Interaktif untuk Sesi Asesor (30 Menit)
-├── screenshots/               # 📸 Folder Tangkapan Layar Bukti Kerja Wajib
+│   └── index.html             # 🖥️ Slide Presentasi Interaktif (30 Menit)
+├── screenshots/               # 📸 Folder Tangkapan Layar Dokumentasi
 └── routes/web.php             # Rute Web, API v1, dan Presentasi
 ```
