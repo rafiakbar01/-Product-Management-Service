@@ -1,123 +1,242 @@
 # PANDUAN PENGGUNA (USER MANUAL)
-## MODUL PRODUCT MANAGEMENT SERVICE
-**Skema Sertifikasi:** Senior Programmer (BNSP)  
-**Dokumen Referensi:** UK J.620100.051.01 (Menyusun Dokumentasi Pengguna)
+## MODUL: IT INVENTORY — PRODUCT MANAGEMENT SERVICE
+
+| Keterangan | Detail |
+|:---|:---|
+| **Nama Asesi** | *(Isi Nama Lengkap)* |
+| **Skema Sertifikasi** | Senior Programmer (BNSP) |
+| **Unit Kompetensi** | UK J.620100.051.01 (Menyusun Dokumentasi Pengguna) |
+| **Tanggal Dokumen** | 30 September 2026 |
 
 ---
 
-### 1. Pendahuluan
-Dokumentasi ini disusun untuk memandu pengguna operasional internal dan staf manajemen inventaris dalam mengoperasikan modul **Product Management Service**. Antarmuka modul ini dirancang ramah pengguna (*user-friendly*), responsif, dan dilengkapi sistem perlindungan data (*safety confirmation*).
+## 1. Pengantar Sistem
+
+Modul **IT Inventory — Product Management Service** adalah sistem pengelolaan inventaris berbasis web yang dirancang khusus untuk kebutuhan **kantor perusahaan digital**. Sistem ini memungkinkan staf IT, manajer pengadaan, dan administrator untuk:
+
+- Mendaftarkan dan mengelola **aset hardware** (laptop, server, jaringan)
+- Mengelola **lisensi software & SaaS** (Microsoft 365, antivirus, cloud tools)
+- Mencatat **kontrak layanan IT** (IT Support, cloud migration)
+- Memantau **stok kritis** dan nilai total aset kantor secara real-time
+- Menelusuri **riwayat audit** setiap perubahan data secara transparan
 
 ---
 
-### 2. Cara Menjalankan Aplikasi (Setup Awal)
+## 2. Cara Menjalankan Aplikasi
 
-1. **Jalankan Laragon:**
-   - Buka aplikasi **Laragon**, lalu klik tombol **Start All** untuk menyalakan Apache/Nginx dan MySQL Server.
-2. **Buka Terminal / Command Prompt:**
-   - Navigasikan ke direktori project:
-     ```bash
-     cd d:\Laragon\www\bnsp-project
-     ```
-3. **Migrasi Database & Isi Data Sampel (Seeding):**
-   ```bash
-   php artisan migrate:fresh --seed
-   ```
-4. **Jalankan Server Lokal:**
-   ```bash
-   php artisan serve
-   ```
-   Aplikasi dapat diakses melalui browser pada alamat: **`http://localhost:8000`** atau host virtual Laragon `http://bnsp-project.test`.
+### Prasyarat:
+- Laragon (Apache/Nginx + MySQL) sudah terinstall
+- PHP 8.2+ dan Composer tersedia
 
----
+### Langkah Setup:
 
-### 3. Panduan Penggunaan Fitur
+```bash
+# 1. Masuk ke direktori proyek
+cd d:\Laragon\www\bnsp-project
 
-#### 3.1 Melihat Katalog & Statistik Produk (Dashboard Utama)
-- Buka menu **"Data Produk (CRUD)"** pada bilah navigasi atas.
-- Di bagian atas, Anda akan melihat 4 kartu indikator utama:
-  1. **Total Produk:** Jumlah seluruh varian produk yang terdaftar.
-  2. **Produk Aktif:** Produk yang saat ini berstatus aktif diperjualbelikan.
-  3. **Stok Kritis / Menipis:** Jumlah item yang memiliki stok sama dengan atau di bawah batas peringatan.
-  4. **Nilai Total Inventaris:** Estimasi total nilai aset rupiah seluruh stok fisik.
+# 2. Install dependensi (jika belum)
+composer install
 
-#### 3.2 Menambahkan Produk Baru
-1. Klik tombol **"+ Tambah Produk Baru"** di pojok kanan atas katalog.
-2. Isi formulir dengan data yang valid:
-   - **Nama Produk:** Nama barang atau layanan (contoh: *Mouse Wireless Ergonomis*).
-   - **SKU:** Kode unik stok barang. Anda dapat mengklik tombol **"Auto-Generate"** untuk membuat SKU otomatis secara instan.
-   - **Kategori:** Pilih kategori produk dari pilihan yang tersedia.
-   - **Tipe Produk:** Pilih *Barang Fisik*, *Produk Digital*, atau *Jasa Konsultasi*.
-   - **Harga Jual:** Masukkan harga jual dalam rupiah (tanpa titik).
-   - **Jumlah Stok Awal:** Masukkan jumlah unit barang.
-   - **Batas Minimum Peringatan (Alert Threshold):** Masukkan batas stok menipis (misal: `5`). Sistem akan memicu notifikasi jika stok barang tersisa &le; 5 unit.
-3. Klik tombol **"Simpan Produk"**. Notifikasi sukses akan muncul di layar.
+# 3. Salin konfigurasi environment
+copy .env.example .env
+php artisan key:generate
 
-#### 3.3 Menggunakan Algoritma Pencarian & Filtering
-Untuk mempermudah menemukan produk di antara ribuan inventaris:
-1. Masukkan kata kunci pada kotak pencarian (bisa mencari berdasarkan nama, SKU, atau deskripsi).
-2. Anda dapat menggabungkan pencarian dengan filter:
-   - **Kategori:** Menyaring produk berdasarkan departemen/kategori.
-   - **Tipe Produk:** Fisik / Digital / Layanan.
-   - **Status Stok:** Pilih *Tersedia*, *Stok Menipis (&le; Min)*, atau *Habis (0)*.
-3. Klik tombol **"Filter"**.
-4. Untuk menghapus semua filter, klik tombol **"Reset"** (ikon putar balik).
+# 4. Migrasi & isi data awal (sample data)
+php artisan migrate:fresh --seed
 
-#### 3.4 Melihat Detail & Riwayat Audit Log Produk
-1. Pada tabel produk, klik tombol aksi ikon mata (**View Detail**).
-2. Anda akan melihat informasi spesifikasi lengkap produk beserta **Riwayat Audit & Activity Logs**.
-3. Di dalam tabel log, Anda dapat mengklik tombol **"Lihat Payload"** untuk menginspeksi JSON rekaman perubahan data secara transparan.
+# 5. Jalankan server lokal
+php artisan serve
+```
 
-#### 3.5 Memperbarui Data Produk (Edit)
-1. Klik tombol ikon pensil (**Edit**) pada baris produk yang diinginkan.
-2. Ubah data yang perlu diperbarui (misal: harga jual atau penambahan stok).
-3. Klik **"Perbarui Data Produk"**. Sistem secara otomatis mencatat riwayat perubahan stok lama dan stok baru ke dalam log audit.
-
-#### 3.6 Menghapus Produk (Soft Delete)
-1. Klik tombol ikon tempat sampah (**Hapus**) pada produk yang ingin dihapus.
-2. Kotak dialog konfirmasi (*Modal Dialog Safety*) akan muncul untuk mencegah penghapusan yang tidak disengaja.
-3. Klik **"Ya, Hapus Produk"**. Produk akan disembunyikan dari katalog namun riwayat transaksinya tetap tersimpan dengan aman (*Soft Deletes*).
+**Akses Aplikasi:** Buka browser dan kunjungi `http://localhost:8000`
 
 ---
 
-### 4. Panduan Monitoring & Telemetri Performa
-Untuk staf IT / DevOps / Lead Developer:
-1. Buka menu **"Monitoring & Telemetri"** di bilah navigasi atas (`http://localhost:8000/monitoring`).
-2. Halaman ini menyajikan:
-   - **Rata-rata Respon (Latency):** Waktu respon rata-rata server dalam satuan milidetik (ms).
-   - **Latensi P95:** Batas latensi pada 95% transaksi pengguna.
-   - **Puncak Memori:** Pemakaian RAM server oleh modul PHP.
-   - **Daftar Peringatan Sistem Aktif:** Produk mana saja yang stoknya kritis dan membutuhkan *reorder* segera.
-   - **Telemetri HTTP Requests:** Tabel riwayat permintaan HTTP lengkap dengan status code, memory, dan query count.
-   - **Log Aktivitas Terfilter:** Riwayat aksi `CREATE`, `UPDATE`, `DELETE`, `SEARCH`, dan `ALERT` secara kronologis.
+## 3. Navigasi Antarmuka
+
+Bilah navigasi kiri (sidebar) berisi:
+
+| Menu | URL | Fungsi |
+|:---|:---|:---|
+| 🗂️ **Katalog Produk** | `/products` | Halaman utama katalog & CRUD |
+| 📊 **Monitoring & Telemetri** | `/monitoring` | Dashboard performa sistem |
+| 📋 **Log Aktivitas** | `/activity-logs` | Audit trail semua operasi |
 
 ---
 
-### 5. Panduan Penggunaan REST API
-Modul ini juga menyediakan antarmuka terprogram untuk integrasi dengan sistem mobile apps atau aplikasi POS pihak ketiga:
-- **Base URL:** `http://localhost:8000/api/v1`
-- **Contoh Request Pencarian:**
-  ```http
-  GET /api/v1/products?q=Laptop&per_page=5
-  ```
-- **Contoh Response JSON:**
-  ```json
-  {
-    "success": true,
-    "message": "Daftar produk berhasil dimuat.",
-    "data": [
-      {
-        "id": 1,
-        "sku": "ELC-LTP-001",
-        "name": "Laptop Ultra Pro 15 inch M3",
-        "price": "24500000.00",
-        "stock": 12,
-        "status": "active"
-      }
-    ],
-    "pagination": {
-      "current_page": 1,
-      "total": 1
+## 4. Panduan Fitur Lengkap
+
+### 4.1 Dashboard Katalog Utama (`/products`)
+
+Saat membuka halaman katalog, Anda akan melihat **4 Kartu Statistik** di bagian atas:
+
+| Kartu | Keterangan |
+|:---|:---|
+| 🗃️ **Total Item Terdaftar** | Jumlah seluruh produk/aset yang ada di database |
+| ✅ **Aset / Lisensi Aktif** | Item berstatus `Active` yang sedang digunakan |
+| ⚠️ **Stok Kritis / Perlu Reorder** | Item dengan stok ≤ batas minimum (alert threshold) |
+| 💰 **Total Nilai Aset Kantor** | Estimasi total nilai rupiah inventaris kantor |
+
+> **Alert Strip Stok Kritis:** Jika ada produk dengan stok di bawah batas minimum, sebuah banner kuning otomatis muncul di atas halaman menampilkan daftar item kritis.
+
+---
+
+### 4.2 Registrasi Aset / Produk Baru (Create)
+
+1. Klik tombol **"Registrasi Aset / Produk Baru"** (pojok kanan atas).
+2. Modal formulir akan muncul. Isi field berikut:
+
+| Field | Keterangan | Contoh |
+|:---|:---|:---|
+| **Nama Produk / Aset** | Nama lengkap item | `Laptop Workstation Dell Precision 5680` |
+| **SKU** | Kode unik item. Klik **"Generate"** untuk otomatis | `HW-142` |
+| **Kategori** | Pilih dari dropdown kategori IT | `Perangkat Komputasi` |
+| **Tipe Aset** | Hardware Asset / Lisensi SaaS / Layanan IT | `Hardware Asset` |
+| **Harga Beli (HPP)** | Harga perolehan aset (Rupiah) | `28000000` |
+| **Harga Jual / Charge** | Harga jual atau biaya charge internal | `32000000` |
+| **Stok / Jumlah Unit** | Jumlah unit yang tersedia | `5` |
+| **Batas Alert (Min Stok)** | Jumlah unit minimum sebelum peringatan muncul | `2` |
+| **Status** | Active / Inactive / Draft | `Active` |
+| **Deskripsi** | Spesifikasi teknis atau keterangan tambahan | `Intel i9-13900H, 32GB RAM...` |
+
+3. Klik **"Simpan Produk"**. Notifikasi hijau sukses akan muncul.
+
+> **Catatan:** SKU harus unik. Jika SKU sudah ada, sistem akan menampilkan pesan error dan menolak penyimpanan.
+
+---
+
+### 4.3 Pencarian & Filtering Multi-Kriteria
+
+Gunakan panel filter di bawah tombol "Registrasi" untuk mencari produk:
+
+| Filter | Fungsi |
+|:---|:---|
+| **🔍 Cari Produk** | Pencarian teks di nama, SKU, dan deskripsi secara serentak |
+| **Kategori** | Filter berdasarkan kategori (misal: Jaringan & Infrastruktur) |
+| **Tipe Aset** | Filter berdasarkan Hardware Asset / Lisensi SaaS / Layanan IT |
+| **Kondisi Stok** | Filter: *Tersedia Aman* / *Stok Menipis* / *Stok Habis (0)* |
+
+**Cara penggunaan:**
+1. Isi satu atau lebih field filter.
+2. Klik tombol **"Filter"**.
+3. Untuk menghapus semua filter, klik tombol **"Reset"** (ikon ↺).
+
+> **Tips:** Anda bisa menggabungkan keyword pencarian dengan filter kategori. Contoh: cari *"Dell"* + filter *Hardware Asset* untuk menemukan semua laptop Dell.
+
+---
+
+### 4.4 Melihat Detail & Audit Log Produk (View)
+
+1. Pada tabel produk, klik ikon **👁️ (mata)** di kolom aksi.
+2. Modal **Detail Produk** terbuka menampilkan:
+   - Informasi lengkap: nama, SKU, kategori, tipe, harga, stok, status
+   - **Riwayat Audit Log** — seluruh operasi yang pernah dilakukan pada produk ini (CREATE, UPDATE, DELETE, ALERT)
+3. Klik **"Lihat Payload"** pada baris log untuk melihat snapshot JSON perubahan data sebelum dan sesudah operasi.
+
+---
+
+### 4.5 Memperbarui Data Produk (Edit)
+
+1. Klik ikon **✏️ (pensil)** pada baris produk.
+2. Modal Edit terbuka dengan data produk yang sudah ter-*prefill*.
+3. Ubah field yang diinginkan (misal: tambah stok atau update harga lisensi).
+4. Klik **"Perbarui Data Produk"**.
+
+> **Otomatis Dicatat:** Setiap perubahan (termasuk perubahan stok lama → stok baru) akan otomatis dicatat ke audit log dengan payload diff.
+
+---
+
+### 4.6 Menghapus Produk (Soft Delete)
+
+1. Klik ikon **🗑️ (tempat sampah)** pada baris produk.
+2. Modal konfirmasi keamanan muncul: *"Yakin ingin menghapus produk ini?"*
+3. Klik **"Ya, Hapus Produk"**.
+
+> **Soft Delete:** Produk tidak dihapus secara permanen dari database. Data tetap tersimpan (field `deleted_at` diisi) sehingga riwayat transaksi dan audit log tetap terjaga.
+
+---
+
+## 5. Panduan Halaman Monitoring & Telemetri (`/monitoring`)
+
+> Khusus untuk: Staf IT, DevOps Engineer, atau Lead Developer.
+
+Halaman ini menampilkan performa sistem secara real-time:
+
+| Indikator | Keterangan |
+|:---|:---|
+| ⚡ **Avg Response Time** | Rata-rata waktu respon server (ms) |
+| 📈 **P95 Latency** | Batas latensi pada 95% transaksi |
+| 🧠 **Peak Memory** | Puncak penggunaan RAM PHP |
+| 🔁 **Total Requests** | Jumlah HTTP request yang telah diproses |
+| ⚠️ **Alert Stok Kritis** | Daftar produk yang butuh reorder segera |
+| 📊 **Tabel Telemetri** | Riwayat request lengkap (URL, status, waktu, query count) |
+
+---
+
+## 6. Panduan Halaman Log Aktivitas (`/activity-logs`)
+
+Halaman khusus audit trail yang menampilkan seluruh operasi sistem:
+
+| Kolom | Keterangan |
+|:---|:---|
+| **Waktu** | Timestamp operasi |
+| **Aksi** | CREATE / UPDATE / DELETE / SEARCH / ALERT / ERROR |
+| **Produk** | Nama produk yang terdampak |
+| **Deskripsi** | Narasi singkat operasi |
+| **Status** | SUCCESS / WARNING / ERROR |
+| **Durasi** | Waktu eksekusi operasi (ms) |
+
+---
+
+## 7. Panduan REST API (untuk Developer)
+
+**Base URL:** `http://localhost:8000/api/v1`
+
+### Contoh: Mencari Produk
+```http
+GET /api/v1/products?q=Laptop&product_type=physical&per_page=5
+```
+
+### Contoh Response JSON:
+```json
+{
+  "success": true,
+  "message": "Daftar produk berhasil dimuat.",
+  "data": [
+    {
+      "id": 1,
+      "sku": "HW-142",
+      "name": "Laptop Workstation Dell Precision 5680",
+      "product_type": "physical",
+      "price": "32000000.00",
+      "stock": 5,
+      "status": "active",
+      "category": { "id": 1, "name": "Perangkat Komputasi" }
     }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "per_page": 5,
+    "total": 1,
+    "last_page": 1
   }
-  ```
+}
+```
+
+### Response Headers Telemetri:
+```
+X-Response-Time-Ms : 3.82
+X-Memory-Usage-MB  : 22.50
+X-Query-Count      : 2
+```
+
+---
+
+## 8. Pesan Error Umum & Solusi
+
+| Pesan Error | Penyebab | Solusi |
+|:---|:---|:---|
+| *"SKU sudah digunakan produk lain"* | SKU duplikat | Gunakan SKU unik atau klik "Generate" |
+| *"Field wajib tidak boleh kosong"* | Form tidak lengkap | Isi semua field bertanda `*` |
+| *"Produk tidak ditemukan"* | ID tidak valid / sudah dihapus | Refresh halaman katalog |
+| *"Stok tidak mencukupi"* | Pengurangan melebihi stok | Periksa jumlah stok saat ini |

@@ -14,6 +14,10 @@ Route::resource('products', ProductController::class);
 // Monitoring and Telemetry Dashboard
 Route::get('monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
 
+// Activity Log & Audit Trail (Separated Page)
+Route::get('activity-logs', [MonitoringController::class, 'logs'])->name('activity-logs.index');
+Route::get('monitoring/logs', fn () => redirect()->route('activity-logs.index'));
+
 // RESTful API Routes (V1)
 Route::prefix('api/v1')->group(function () {
     Route::get('products', [ProductApiController::class, 'index'])->name('api.products.index');

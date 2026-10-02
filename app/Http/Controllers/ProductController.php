@@ -49,12 +49,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Show form for creating a new product.
+     * Show form for creating a new product (Redirects to modal).
      */
-    public function create(): View
+    public function create(): RedirectResponse
     {
-        $categories = Category::where('is_active', true)->orderBy('name')->get();
-        return view('products.create', compact('categories'));
+        return redirect()->route('products.index', ['action' => 'create']);
     }
 
     /**
@@ -100,25 +99,31 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified product with audit logs.
+     * Display the specified product with audit logs (JSON or redirect to modal).
      */
-    public function show(int $id): View
+    public function show(Request $request, int $id)
     {
         $product = $this->productService->getProductById($id);
-        $logs = $product->activityLogs()->orderBy('id', 'desc')->paginate(10);
+        $product->load(['category', 'activityLogs' => function ($q) {
+            $q->orderBy('id', 'desc')->limit(10);
+        }]);
 
-        return view('products.show', compact('product', 'logs'));
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'data' => $product,
+            ]);
+        }
+
+        return redirect()->route('products.index', ['view' => $id]);
     }
 
     /**
-     * Show form for editing the specified product.
+     * Show form for editing the specified product (Redirects to modal).
      */
-    public function edit(int $id): View
+    public function edit(int $id): RedirectResponse
     {
-        $product = $this->productService->getProductById($id);
-        $categories = Category::where('is_active', true)->orderBy('name')->get();
-
-        return view('products.edit', compact('product', 'categories'));
+        return redirect()->route('products.index', ['edit' => $id]);
     }
 
     /**

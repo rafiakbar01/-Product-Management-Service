@@ -59,9 +59,9 @@ class ProductSystemTest extends TestCase
         Product::create([
             'category_id' => $this->category->id,
             'sku' => 'SRCH-002',
-            'name' => 'Kopi Robusta Lampung',
-            'slug' => 'kopi-robusta-lampung',
-            'price' => 50000,
+            'name' => 'Kursi Ergonomis Kantor',
+            'slug' => 'kursi-ergonomis-kantor',
+            'price' => 3500000,
             'stock' => 20,
             'min_stock_alert' => 5,
             'status' => 'active',
@@ -72,7 +72,7 @@ class ProductSystemTest extends TestCase
         $response = $this->get('/products?q=Smartphone');
         $response->assertStatus(200);
         $response->assertSee('Smartphone Android Flagship');
-        $response->assertDontSee('Kopi Robusta Lampung');
+        $response->assertDontSee('Kursi Ergonomis Kantor');
     }
 
     /**
@@ -134,5 +134,15 @@ class ProductSystemTest extends TestCase
         $response = $this->get('/monitoring');
         $response->assertStatus(200);
         $response->assertSee('Monitoring & Evaluasi Performa Modul');
+    }
+
+    /**
+     * Test separated activity logs page accessibility.
+     */
+    public function test_activity_logs_page_is_accessible(): void
+    {
+        $response = $this->get('/activity-logs');
+        $response->assertStatus(200);
+        $response->assertSee('Log Aktivitas & Riwayat Audit');
     }
 }

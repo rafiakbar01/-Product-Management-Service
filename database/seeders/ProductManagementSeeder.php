@@ -8,6 +8,11 @@ use App\Models\ProductActivityLog;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
+/**
+ * Class ProductManagementSeeder
+ * Seeder data master inventaris internal untuk Perusahaan Digital (IT Enterprise & Corporate Office).
+ * Mendukung 3 tipe produk (physical, digital, service) sesuai instruksi tugas BNSP Senior Programmer.
+ */
 class ProductManagementSeeder extends Seeder
 {
     /**
@@ -15,152 +20,252 @@ class ProductManagementSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Seed Categories
+        // 1. Seed Categories Khusus Kebutuhan Kantor Perusahaan Digital
         $categoriesData = [
-            ['name' => 'Elektronik & Gadget', 'slug' => 'elektronik-gadget', 'description' => 'Perangkat keras, smartphone, laptop, dan aksesoris teknologi.'],
-            ['name' => 'Fashion & Pakaian', 'slug' => 'fashion-pakaian', 'description' => 'Busana pria, wanita, sepatu, dan aksesoris gaya hidup.'],
-            ['name' => 'Kebutuhan Kantor', 'slug' => 'kebutuhan-kantor', 'description' => 'Alat tulis kantor, perlengkapan meeting, dan ergonomi meja kerja.'],
-            ['name' => 'Layanan Digital & Lisensi', 'slug' => 'layanan-digital-lisensi', 'description' => 'Lisensi perangkat lunak SaaS, e-book, dan voucher digital.'],
-            ['name' => 'Makanan & Minuman', 'slug' => 'makanan-minuman', 'description' => 'Konsumsi segar, kopi artisan, dan camilan kantor.'],
+            [
+                'name' => 'Perangkat Komputer & Workstation',
+                'slug' => 'komputer-workstation',
+                'description' => 'Laptop pengembang, PC workstation, monitor resolusi tinggi, dan periferal komputasi karyawan.',
+            ],
+            [
+                'name' => 'Infrastruktur Jaringan & Server',
+                'slug' => 'infrastruktur-server',
+                'description' => 'Server rack enterprise, managed switch PoE, router gateway firewall, dan perangkat penyimpanan NAS.',
+            ],
+            [
+                'name' => 'Lisensi Software & Cloud SaaS',
+                'slug' => 'lisensi-software-saas',
+                'description' => 'Aktivasi lisensi IDE developer, tool kolaborasi desain, productivity suite, dan cloud hosting.',
+            ],
+            [
+                'name' => 'Layanan & Dukungan IT Enterprise',
+                'slug' => 'layanan-dukungan-it',
+                'description' => 'Kontrak pemeliharaan server bulanan, jasa penetration testing audit keamanan, dan konsultasi cloud DevOps.',
+            ],
+            [
+                'name' => 'Fasilitas & Ergonomi Kantor',
+                'slug' => 'fasilitas-ergonomi-kantor',
+                'description' => 'Kursi kerja ergonomis standar kesehatan kerja, meja standing desk elektrik, dan perangkat video conference.',
+            ],
         ];
 
         $categories = [];
         foreach ($categoriesData as $cat) {
-            $categories[$cat['slug']] = Category::firstOrCreate(['slug' => $cat['slug']], $cat);
+            $categories[$cat['slug']] = Category::updateOrCreate(['slug' => $cat['slug']], $cat);
         }
 
-        // 2. Seed Initial Products
+        // 2. Seed Master Data Produk Kebutuhan Perusahaan Digital
         $productsData = [
+            // --- Kategori 1: Komputer & Workstation (Physical) ---
             [
-                'category_id' => $categories['elektronik-gadget']->id,
-                'sku' => 'ELC-LTP-001',
-                'name' => 'Laptop Ultra Pro 15 inch M3',
-                'slug' => 'laptop-ultra-pro-15-inch-m3',
-                'description' => 'Laptop performa tinggi dengan RAM 32GB dan SSD 1TB untuk pengembang perangkat lunak.',
+                'category_id' => $categories['komputer-workstation']->id,
+                'sku' => 'HW-LTP-001',
+                'name' => 'MacBook Pro 16" M3 Max 36GB / 1TB SSD',
+                'slug' => 'macbook-pro-16-m3-max-36gb-1tb',
+                'description' => 'Laptop workstation performa tinggi standar engineer dan arsitek software dengan layar Liquid Retina XDR.',
                 'product_type' => 'physical',
-                'price' => 24500000,
-                'cost_price' => 20000000,
+                'price' => 38500000,
+                'cost_price' => 34000000,
                 'stock' => 12,
                 'min_stock_alert' => 5,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['elektronik-gadget']->id,
-                'sku' => 'ELC-MNT-002',
-                'name' => 'Monitor 4K Curved 34 inch Ultrawide',
-                'slug' => 'monitor-4k-curved-34-inch-ultrawide',
-                'description' => 'Monitor bezel-less 144Hz dengan color accuracy 99% sRGB.',
+                'category_id' => $categories['komputer-workstation']->id,
+                'sku' => 'HW-MNT-002',
+                'name' => 'Monitor Dell UltraSharp 32" 4K UHD USB-C Hub',
+                'slug' => 'monitor-dell-ultrasharp-32-4k-uhd',
+                'description' => 'Display IPS Black 4K dengan akurasi 100% sRGB, 98% DCI-P3, dan integrasi 90W Power Delivery hub.',
                 'product_type' => 'physical',
-                'price' => 8750000,
-                'cost_price' => 7000000,
-                'stock' => 4, // LOW STOCK TRIGGER (< 5)
+                'price' => 11800000,
+                'cost_price' => 9500000,
+                'stock' => 4, // LOW STOCK (< 5)
                 'min_stock_alert' => 5,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['elektronik-gadget']->id,
-                'sku' => 'ELC-MOU-003',
-                'name' => 'Ergonomic Wireless Mouse Silent Click',
-                'slug' => 'ergonomic-wireless-mouse-silent-click',
-                'description' => 'Mouse ergonomis vertikal untuk mencegah cidera pergelangan tangan (RSI).',
+                'category_id' => $categories['komputer-workstation']->id,
+                'sku' => 'HW-PRF-003',
+                'name' => 'Logitech MX Master 3S Wireless Mouse & Mechanical Mini Set',
+                'slug' => 'logitech-mx-master-3s-mouse-keyboard-set',
+                'description' => 'Bundle periferal produktivitas nirkabel dengan sensor 8K DPI silent click dan switch mekanik tactile.',
                 'product_type' => 'physical',
-                'price' => 450000,
-                'cost_price' => 300000,
-                'stock' => 35,
+                'price' => 3250000,
+                'cost_price' => 2600000,
+                'stock' => 25,
+                'min_stock_alert' => 8,
+                'status' => 'active',
+            ],
+
+            // --- Kategori 2: Infrastruktur Jaringan & Server (Physical) ---
+            [
+                'category_id' => $categories['infrastruktur-server']->id,
+                'sku' => 'NET-SRV-001',
+                'name' => 'Server Dell PowerEdge R760 2U Dual Intel Xeon 128GB RAM',
+                'slug' => 'server-dell-poweredge-r760-2u-xeon',
+                'description' => 'Server rack enterprise on-premise untuk virtualisasi Proxmox, staging Kubernetes, dan replikasi database.',
+                'product_type' => 'physical',
+                'price' => 85000000,
+                'cost_price' => 72000000,
+                'stock' => 2, // LOW STOCK (< 3)
+                'min_stock_alert' => 3,
+                'status' => 'active',
+            ],
+            [
+                'category_id' => $categories['infrastruktur-server']->id,
+                'sku' => 'NET-SWT-002',
+                'name' => 'Ubiquiti UniFi Switch Pro 24 PoE + Dream Machine SE Gateway',
+                'slug' => 'ubiquiti-unifi-switch-pro-24-poe-udm-se',
+                'description' => 'Core switch managed 24-Port Gigabit PoE+ dengan firewall gateway 10Gbps SFP+ dan kontroler terpusat.',
+                'product_type' => 'physical',
+                'price' => 19500000,
+                'cost_price' => 16000000,
+                'stock' => 6,
+                'min_stock_alert' => 2,
+                'status' => 'active',
+            ],
+
+            // --- Kategori 3: Lisensi Software & Cloud SaaS (Digital) ---
+            [
+                'category_id' => $categories['lisensi-software-saas']->id,
+                'sku' => 'SW-IDE-001',
+                'name' => 'Lisensi JetBrains All Products Pack Enterprise (1 Tahun)',
+                'slug' => 'lisensi-jetbrains-all-products-pack-enterprise',
+                'description' => 'Aktivasi lisensi tool coding suite (PhpStorm, IntelliJ, WebStorm, PyCharm, DataGrip) untuk engineer tim.',
+                'product_type' => 'digital',
+                'price' => 12500000,
+                'cost_price' => 9800000,
+                'stock' => 45,
                 'min_stock_alert' => 10,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['layanan-digital-lisensi']->id,
-                'sku' => 'SFT-IDE-001',
-                'name' => 'Lisensi IDE Ultimate 1 Tahun',
-                'slug' => 'lisensi-ide-ultimate-1-tahun',
-                'description' => 'Aktivasi lisensi tool coding all-pack suite untuk 1 pengguna profesional.',
+                'category_id' => $categories['lisensi-software-saas']->id,
+                'sku' => 'SW-CLD-002',
+                'name' => 'Langganan Google Workspace Enterprise Plus (Paket 10 User)',
+                'slug' => 'google-workspace-enterprise-plus-10-user',
+                'description' => 'Email domain perusahaan kustom, unlimited cloud vault storage, dan advanced DLP security compliance.',
                 'product_type' => 'digital',
-                'price' => 3200000,
-                'cost_price' => 2500000,
-                'stock' => 50,
+                'price' => 6800000,
+                'cost_price' => 5500000,
+                'stock' => 30,
                 'min_stock_alert' => 5,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['layanan-digital-lisensi']->id,
-                'sku' => 'SRV-CSL-002',
-                'name' => 'Paket Konsultasi Arsitektur Cloud (10 Jam)',
-                'slug' => 'paket-konsultasi-arsitektur-cloud',
-                'description' => 'Sesi mentoring dan review implementasi Microservices dan DevOps.',
+                'category_id' => $categories['lisensi-software-saas']->id,
+                'sku' => 'SW-FGM-003',
+                'name' => 'Lisensi Figma Enterprise Organization Seat (Annual)',
+                'slug' => 'lisensi-figma-enterprise-organization-seat',
+                'description' => 'Akses desain sistem kolaboratif, branching design file, dan SSO Okta integration untuk UI/UX tim.',
+                'product_type' => 'digital',
+                'price' => 8400000,
+                'cost_price' => 7000000,
+                'stock' => 15,
+                'min_stock_alert' => 5,
+                'status' => 'active',
+            ],
+
+            // --- Kategori 4: Layanan & Dukungan IT (Service) ---
+            [
+                'category_id' => $categories['layanan-dukungan-it']->id,
+                'sku' => 'SRV-MNT-001',
+                'name' => 'Kontrak Pemeliharaan Server & Database Bulanan (SLA 99.9%)',
+                'slug' => 'kontrak-pemeliharaan-server-database-bulanan',
+                'description' => 'Layanan monitoring 24/7, OS security patch berkala, backup drill mingguan, dan respon insiden < 15 menit.',
                 'product_type' => 'service',
                 'price' => 15000000,
-                'cost_price' => 10000000,
-                'stock' => 3, // LOW STOCK TRIGGER (< 5)
-                'min_stock_alert' => 5,
+                'cost_price' => 9000000,
+                'stock' => 5,
+                'min_stock_alert' => 2,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['kebutuhan-kantor']->id,
+                'category_id' => $categories['layanan-dukungan-it']->id,
+                'sku' => 'SRV-SEC-002',
+                'name' => 'Paket Penetration Testing & Vulnerability Assessment Aplikasi Internal',
+                'slug' => 'paket-penetration-testing-vulnerability-assessment',
+                'description' => 'Audit celah keamanan OWASP Top 10, SAST/DAST testing, dan sertifikat laporan kepatuhan ISO 27001.',
+                'product_type' => 'service',
+                'price' => 22000000,
+                'cost_price' => 14000000,
+                'stock' => 1, // CRITICAL LOW STOCK
+                'min_stock_alert' => 3,
+                'status' => 'active',
+            ],
+
+            // --- Kategori 5: Fasilitas & Ergonomi Kantor (Physical) ---
+            [
+                'category_id' => $categories['fasilitas-ergonomi-kantor']->id,
                 'sku' => 'OFF-CHR-001',
-                'name' => 'Kursi Ergonomis Mesh Lumbar Support',
-                'slug' => 'kursi-ergonomis-mesh-lumbar-support',
-                'description' => 'Kursi kerja breathable mesh dengan penyesuaian 3D armrest dan headrest.',
+                'name' => 'Kursi Kerja Ergonomis Herman Miller Aeron Remastered',
+                'slug' => 'kursi-kerja-ergonomis-herman-miller-aeron',
+                'description' => 'Kursi kantor standar korporat dengan PostureFit SL lumbar support, 3D armrest, dan mesh Pellicle breathable.',
                 'product_type' => 'physical',
-                'price' => 2850000,
-                'cost_price' => 2100000,
+                'price' => 21500000,
+                'cost_price' => 17500000,
                 'stock' => 8,
                 'min_stock_alert' => 3,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['makanan-minuman']->id,
-                'sku' => 'FNB-COF-001',
-                'name' => 'Specialty Arabica Coffee Beans 1kg Single Origin',
-                'slug' => 'specialty-arabica-coffee-beans-1kg',
-                'description' => 'Biji kopi roasting medium freshly roasted untuk mesin espresso kantor.',
+                'category_id' => $categories['fasilitas-ergonomi-kantor']->id,
+                'sku' => 'OFF-DSK-002',
+                'name' => 'Meja Kerja Standing Desk Elektrik Dual Motor 160x80cm',
+                'slug' => 'meja-kerja-standing-desk-elektrik-dual-motor',
+                'description' => 'Meja kerja adjustable height motor ganda dengan 4 memory preset, anti-collision sensor, dan cable tray rapi.',
                 'product_type' => 'physical',
-                'price' => 280000,
-                'cost_price' => 190000,
-                'stock' => 1, // LOW STOCK TRIGGER (Critical 1 unit)
-                'min_stock_alert' => 10,
+                'price' => 6800000,
+                'cost_price' => 5200000,
+                'stock' => 0, // OUT OF STOCK
+                'min_stock_alert' => 4,
                 'status' => 'active',
             ],
             [
-                'category_id' => $categories['fashion-pakaian']->id,
-                'sku' => 'FSH-JKT-001',
-                'name' => 'Tech Jacket Waterproof Windbreaker',
-                'slug' => 'tech-jacket-waterproof-windbreaker',
-                'description' => 'Jaket techwear multifungsi anti air dengan saku laptop internal.',
+                'category_id' => $categories['fasilitas-ergonomi-kantor']->id,
+                'sku' => 'OFF-MTR-003',
+                'name' => 'Polycom Studio 4K Video Bar & Speakerphone Conference System',
+                'slug' => 'polycom-studio-4k-video-bar-conference',
+                'description' => 'Perangkat all-in-one meeting room kamera 4K pintar dengan automatic voice tracking dan noise blocker AI.',
                 'product_type' => 'physical',
-                'price' => 750000,
-                'cost_price' => 500000,
-                'stock' => 0, // OUT OF STOCK
-                'min_stock_alert' => 5,
+                'price' => 16500000,
+                'cost_price' => 13000000,
+                'stock' => 3,
+                'min_stock_alert' => 2,
                 'status' => 'active',
             ],
         ];
 
         foreach ($productsData as $item) {
-            $product = Product::firstOrCreate(['sku' => $item['sku']], $item);
+            $product = Product::updateOrCreate(['sku' => $item['sku']], $item);
 
             // Record initial seeding activity log
             ProductActivityLog::create([
                 'product_id' => $product->id,
                 'action' => 'CREATE',
-                'description' => "Initial seeding produk: {$product->name}",
-                'user_identifier' => 'System Seeder',
+                'description' => "Initial catalog entry: {$product->name} (SKU: {$product->sku})",
+                'user_identifier' => 'System Admin / Seeder',
                 'ip_address' => '127.0.0.1',
-                'payload' => ['sku' => $product->sku, 'stock' => $product->stock],
+                'payload' => [
+                    'sku' => $product->sku,
+                    'type' => $product->product_type,
+                    'stock' => $product->stock,
+                    'price' => $product->price,
+                ],
                 'response_status' => 'SUCCESS',
-                'execution_time_ms' => 4.5,
-                'created_at' => now()->subMinutes(rand(10, 120)),
+                'execution_time_ms' => round(rand(20, 80) / 10, 2),
+                'created_at' => now()->subMinutes(rand(15, 180)),
             ]);
 
             if ($product->isLowStock()) {
                 ProductActivityLog::create([
                     'product_id' => $product->id,
                     'action' => 'LOW_STOCK_ALERT',
-                    'description' => "Peringatan stok menipis: {$product->name} (Sisa: {$product->stock})",
-                    'user_identifier' => 'SYSTEM_MONITOR',
+                    'description' => "Peringatan stok kritis: {$product->name} (Sisa: {$product->stock} unit, Ambang batas: {$product->min_stock_alert})",
+                    'user_identifier' => 'SYSTEM_TELEMETRY',
                     'payload' => ['stock' => $product->stock, 'min_alert' => $product->min_stock_alert],
                     'response_status' => 'WARNING',
+                    'execution_time_ms' => 1.8,
                     'created_at' => now()->subMinutes(rand(5, 60)),
                 ]);
             }

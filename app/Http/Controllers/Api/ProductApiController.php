@@ -93,6 +93,9 @@ class ProductApiController extends Controller
     public function show(int $id): JsonResponse
     {
         $product = $this->productService->getProductById($id);
+        $product->load(['category', 'activityLogs' => function ($q) {
+            $q->orderBy('id', 'desc')->limit(10);
+        }]);
 
         return response()->json([
             'success' => true,

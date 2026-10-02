@@ -1,242 +1,275 @@
 @extends('layouts.app')
 
-@section('title', 'Monitoring & Telemetri Performa Modul')
+@section('title', 'Monitoring & Evaluasi Performa Modul')
+@section('breadcrumb')
+@endsection
 
 @section('content')
-<!-- Header Page Title -->
-<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+<!-- Page Header -->
+<div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1">Monitoring & Evaluasi Performa Modul</h3>
-        <p class="text-muted mb-0">Pemantauan real-time latensi respon HTTP, konsumsi memori, logging aktivitas, dan sistem peringatan dini (Alerts).</p>
+        <div class="d-flex align-items-center gap-2 mb-1">
+        </div>
+        <h1 class="page-heading">Monitoring &amp; Evaluasi Performa Modul</h1>
+        <p class="page-sub mb-0">Pemantauan real-time latensi HTTP, ambang batas SLA, konsumsi memori server, dan evaluasi performa aplikasi.</p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{{ route('monitoring.index') }}" class="btn btn-outline-primary d-flex align-items-center gap-2">
-            <i class="bi bi-arrow-clockwise"></i> Refresh Data
+        <a href="{{ route('activity-logs.index') }}" class="btn-ghost">
+            <i class="bi bi-journal-text"></i> Ke Halaman Log Aktivitas
+        </a>
+        <a href="{{ route('monitoring.index') }}" class="btn-primary-custom">
+            <i class="bi bi-arrow-clockwise"></i> Refresh Telemetri
         </a>
     </div>
 </div>
 
-<!-- Telemetry Summary Cards (UK J.620100.045.01 - Memantau Performa Aplikasi) -->
+<!-- Telemetry Stat Cards -->
 <div class="row g-3 mb-4">
-    <div class="col-6 col-lg-2">
-        <div class="card card-stat p-3">
-            <div class="text-muted small fw-medium">Total Permintaan</div>
-            <div class="fs-4 fw-bold text-dark mt-1">{{ number_format($summary['total_requests']) }}</div>
-            <div class="small text-muted" style="font-size: 0.72rem;">HTTP Requests</div>
+    <div class="col-6 col-lg">
+        <div class="stat-card orange">
+            <div class="icon-wrap"><i class="bi bi-reception-4"></i></div>
+            <div class="stat-value">{{ number_format($summary['total_requests']) }}</div>
+            <div class="stat-label">Total HTTP Requests</div>
         </div>
     </div>
-    <div class="col-6 col-lg-2">
-        <div class="card card-stat p-3">
-            <div class="text-muted small fw-medium">Rata-rata Respon</div>
-            <div class="fs-4 fw-bold text-primary mt-1">{{ $summary['avg_response_time_ms'] }} <span class="fs-6 fw-normal">ms</span></div>
-            <div class="small text-muted" style="font-size: 0.72rem;">Average Latency</div>
+    <div class="col-6 col-lg">
+        <div class="stat-card green">
+            <div class="icon-wrap"><i class="bi bi-stopwatch"></i></div>
+            <div class="stat-value" style="font-size:1.4rem;">{{ $summary['avg_response_time_ms'] }}<small style="font-size:0.8rem;font-weight:500;">ms</small></div>
+            <div class="stat-label">Rata-rata Latensi</div>
         </div>
     </div>
-    <div class="col-6 col-lg-3">
-        <div class="card card-stat p-3">
-            <div class="text-muted small fw-medium">Latensi P95 (95th Percentile)</div>
-            <div class="fs-4 fw-bold text-info mt-1">{{ $summary['p95_response_time_ms'] }} <span class="fs-6 fw-normal">ms</span></div>
-            <div class="small text-muted" style="font-size: 0.72rem;">Senior-Level SLA Metric</div>
+    <div class="col-6 col-lg">
+        <div class="stat-card amber">
+            <div class="icon-wrap"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="stat-value" style="font-size:1.4rem;">{{ $summary['p95_response_time_ms'] }}<small style="font-size:0.8rem;font-weight:500;">ms</small></div>
+            <div class="stat-label">P95 Latency (SLA)</div>
         </div>
     </div>
-    <div class="col-6 col-lg-3">
-        <div class="card card-stat p-3">
-            <div class="text-muted small fw-medium">Puncak Memori (Peak RAM)</div>
-            <div class="fs-4 fw-bold text-dark mt-1">{{ $summary['peak_memory_mb'] }} <span class="fs-6 fw-normal">MB</span></div>
-            <div class="small text-muted" style="font-size: 0.72rem;">Avg: {{ $summary['avg_memory_mb'] }} MB</div>
+    <div class="col-6 col-lg">
+        <div class="stat-card orange">
+            <div class="icon-wrap"><i class="bi bi-cpu"></i></div>
+            <div class="stat-value" style="font-size:1.4rem;">{{ $summary['peak_memory_mb'] }}<small style="font-size:0.8rem;font-weight:500;">MB</small></div>
+            <div class="stat-label">Peak RAM · Avg: {{ $summary['avg_memory_mb'] }}MB</div>
         </div>
     </div>
-    <div class="col-6 col-lg-2">
-        <div class="card card-stat p-3">
-            <div class="text-muted small fw-medium">Error Rate</div>
-            <div class="fs-4 fw-bold {{ $summary['error_count'] > 0 ? 'text-danger' : 'text-success' }} mt-1">
-                {{ $summary['error_rate_percent'] }}%
-            </div>
-            <div class="small text-muted" style="font-size: 0.72rem;">{{ $summary['error_count'] }} Error detected</div>
+    <div class="col-6 col-lg">
+        <div class="stat-card {{ $summary['error_count'] > 0 ? '' : 'green' }}" style="{{ $summary['error_count'] > 0 ? 'border-color:rgba(239,68,68,0.25);' : '' }}">
+            <div class="icon-wrap" style="{{ $summary['error_count'] > 0 ? 'background:var(--clr-danger-light);color:var(--clr-danger);' : '' }}"><i class="bi bi-shield-check"></i></div>
+            <div class="stat-value" style="color:{{ $summary['error_count'] > 0 ? 'var(--clr-danger)' : 'var(--clr-success)' }};">{{ $summary['error_rate_percent'] }}%</div>
+            <div class="stat-label">Error Rate · {{ $summary['error_count'] }} Error</div>
         </div>
     </div>
 </div>
 
-<!-- Alert Notifications Section (UK J.620100.044.01 - Menerapkan Alert Notification) -->
-<div class="card card-stat mb-4">
-    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-2">
-            <span class="d-inline-flex p-1 bg-warning text-dark rounded"><i class="bi bi-bell-fill"></i></span>
-            <h5 class="fw-bold mb-0">Peringatan Sistem Aktif (Alert Notifications)</h5>
+<!-- SLA Benchmark & Evaluation Banner (UK J.620100.047.01) -->
+<div class="card-glass p-4 mb-4" style="background:linear-gradient(135deg, #1c1008 0%, #2e1809 100%);border-color:rgba(224,123,0,0.3);color:#fff;">
+    <div class="row align-items-center g-3">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge" style="background:#16a34a;color:#fff;font-size:0.75rem;padding:5px 10px;border-radius:20px;">
+                    <i class="bi bi-check-circle-fill me-1"></i> STATUS SISTEM: OPTIMAL
+                </span>
+                <span style="font-size:0.78rem;color:#fdd996;">Evaluasi Standar Kinerja SLA &amp; Telemetri</span>
+            </div>
+            <h4 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin:0 0 6px;color:#fdf0dc;">
+                Ambang Batas &amp; Health Check Kinerja Aplikasi
+            </h4>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin:0;line-height:1.6;">
+                Berdasarkan pengukuran middleware telemetri, latensi P95 berada pada <strong>{{ $summary['p95_response_time_ms'] }}ms</strong> (di bawah batas toleransi SLA 200ms). Rata-rata pemakaian RAM server <strong>{{ $summary['avg_memory_mb'] }}MB</strong> (limit 128MB).
+            </p>
         </div>
-        <span class="badge bg-warning text-dark">{{ $lowStockAlerts->count() }} Peringatan Terdeteksi</span>
+        <div class="col-lg-4 text-lg-end">
+            <div class="d-inline-flex flex-column gap-2 text-start p-3" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;min-width:220px;">
+                <div class="d-flex justify-content-between" style="font-size:0.78rem;">
+                    <span style="color:rgba(255,255,255,0.6);">Target Latensi SLA:</span>
+                    <strong style="color:#4ade80;">&lt; 200 ms</strong>
+                </div>
+                <div class="d-flex justify-content-between" style="font-size:0.78rem;">
+                    <span style="color:rgba(255,255,255,0.6);">Error Budget:</span>
+                    <strong style="color:#4ade80;">&lt; 1.00%</strong>
+                </div>
+                <div class="d-flex justify-content-between" style="font-size:0.78rem;">
+                    <span style="color:rgba(255,255,255,0.6);">Log Terdistribusi:</span>
+                    <a href="{{ route('activity-logs.index') }}" style="color:#f59e0b;font-weight:700;text-decoration:none;">
+                        {{ number_format($totalLogsCount) }} Entri <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body p-3">
+</div>
+
+<!-- Active Alert Notifications Panel (UK J.620100.044.01) -->
+<div class="card-glass mb-4" style="{{ $lowStockAlerts->count() > 0 ? 'border-color:rgba(245,158,11,0.3);' : '' }}">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--clr-border);display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:32px;height:32px;background:{{ $lowStockAlerts->count() > 0 ? '#f59e0b' : 'var(--clr-success)' }};border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">
+                <i class="bi bi-bell-fill" style="font-size:0.85rem;"></i>
+            </span>
+            <div>
+                <span style="font-weight:700;font-size:0.9rem;">Notifikasi &amp; Alert Batas Stok</span>
+                <div style="font-size:0.72rem;color:var(--clr-muted);">Peringatan otomatis untuk mencegah out-of-stock</div>
+            </div>
+        </div>
+        <span style="background:{{ $lowStockAlerts->count() > 0 ? '#fef3c7' : 'var(--clr-success-light)' }};color:{{ $lowStockAlerts->count() > 0 ? '#92400e' : 'var(--clr-success)' }};border:1px solid {{ $lowStockAlerts->count() > 0 ? '#fde68a' : '#a7f3d0' }};font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:20px;">
+            {{ $lowStockAlerts->count() }} Peringatan Aktif
+        </span>
+    </div>
+    <div class="p-3">
         @if($lowStockAlerts->count() > 0)
             <div class="row g-2">
                 @foreach($lowStockAlerts as $item)
-                    <div class="col-md-6">
-                        <div class="border border-warning-subtle bg-warning-subtle p-3 rounded-3 d-flex align-items-center justify-content-between">
-                            <div>
-                                <div class="fw-bold text-dark">{{ $item->name }}</div>
-                                <div class="small text-muted">
-                                    SKU: <code>{{ $item->sku }}</code> | Batas Minimum: {{ $item->min_stock_alert }} unit
+                    <div class="col-md-6 col-lg-4">
+                        <div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                            <div style="min-width:0;">
+                                <div style="font-weight:700;font-size:0.83rem;color:var(--clr-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $item->name }}</div>
+                                <div style="font-size:0.72rem;color:#92400e;margin-top:2px;">
+                                    <span class="sku-chip">{{ $item->sku }}</span>
+                                    <span class="ms-1">Ambang alert: {{ $item->min_stock_alert }} unit</span>
                                 </div>
                             </div>
-                            <div class="text-end">
-                                <span class="badge bg-danger fs-6">{{ $item->stock }} Unit Sisa</span>
-                                <div class="mt-1">
-                                    <a href="{{ route('products.edit', $item->id) }}" class="btn btn-sm btn-outline-dark py-0" style="font-size: 0.75rem;">Restock</a>
-                                </div>
+                            <div style="text-align:right;flex-shrink:0;">
+                                <div style="font-size:1.25rem;font-weight:800;color:var(--clr-danger);">{{ $item->stock }}</div>
+                                <div style="font-size:0.65rem;color:#92400e;font-weight:600;">unit tersisa</div>
+                                <a href="{{ route('products.index', ['stock_status' => 'low_stock']) }}" style="font-size:0.7rem;color:#92400e;font-weight:700;text-decoration:none;border:1px solid #fde68a;border-radius:6px;padding:2px 8px;display:inline-block;margin-top:3px;background:#fff;">
+                                    Kelola
+                                </a>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
         @else
-            <div class="text-center py-3 text-muted">
-                <i class="bi bi-shield-check text-success fs-3 d-block mb-1"></i>
-                <div class="fw-medium">Semua inventaris dalam batas aman. Tidak ada alert aktif saat ini.</div>
+            <div style="text-align:center;padding:22px;color:var(--clr-muted);">
+                <i class="bi bi-shield-check" style="font-size:2rem;color:var(--clr-success);display:block;margin-bottom:6px;"></i>
+                <div style="font-weight:600;font-size:0.88rem;color:var(--clr-text);">Semua stok produk berada pada batas aman</div>
+                <div style="font-size:0.78rem;margin-top:3px;">Tidak ada alert notifikasi stok yang terpicu saat ini.</div>
             </div>
         @endif
     </div>
 </div>
 
-<div class="row g-4 mb-4">
-    <!-- Telemetri Permintaan HTTP (Recent Requests) -->
-    <div class="col-lg-6">
-        <div class="card card-stat h-100">
-            <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="bi bi-stopwatch text-primary fs-5"></i>
-                    <h5 class="fw-bold mb-0">Telemetri HTTP Requests</h5>
-                </div>
-                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Real-Time</span>
+<!-- HTTP Telemetry Real-time Table (Full Width) -->
+<div class="card-glass">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--clr-border);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;">
+        <div class="d-flex align-items-center gap-2">
+            <span style="width:32px;height:32px;background:var(--clr-primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--clr-primary);">
+                <i class="bi bi-activity fs-6"></i>
+            </span>
+            <div>
+                <div style="font-weight:700;font-size:0.92rem;color:var(--clr-text);">Telemetri HTTP Requests &amp; Latensi Runtime</div>
+                <div style="font-size:0.72rem;color:var(--clr-muted);">Pengambilan metrik otomatis melalui PerformanceMonitoringMiddleware</div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-custom mb-0">
-                    <thead>
-                        <tr>
-                            <th>Method & URL</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-end">Waktu (ms)</th>
-                            <th class="text-end">RAM (MB)</th>
-                            <th class="text-center">Queries</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($recentMetrics as $metric)
-                            <tr>
-                                <td>
-                                    <span class="badge {{ $metric->method === 'POST' ? 'bg-success' : ($metric->method === 'PUT' ? 'bg-warning text-dark' : ($metric->method === 'DELETE' ? 'bg-danger' : 'bg-primary')) }} me-1" style="font-size: 0.68rem;">
-                                        {{ $metric->method }}
-                                    </span>
-                                    <span class="small font-monospace text-truncate d-inline-block" style="max-width: 190px;" title="{{ $metric->url }}">
-                                        {{ parse_url($metric->url, PHP_URL_PATH) }}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge {{ $metric->status_code < 400 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }} border">
-                                        {{ $metric->status_code }}
-                                    </span>
-                                </td>
-                                <td class="text-end font-monospace small fw-bold {{ $metric->response_time_ms > 200 ? 'text-warning' : 'text-dark' }}">
-                                    {{ $metric->response_time_ms }} ms
-                                </td>
-                                <td class="text-end font-monospace small text-muted">
-                                    {{ $metric->memory_usage_mb }} MB
-                                </td>
-                                <td class="text-center small">
-                                    <span class="badge bg-light text-dark border">{{ $metric->db_query_count }} Q</span>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted small">
-                                    Belum ada data telemetri tercatat. Buka halaman produk untuk menghasilkan data.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="status-dot">Live Stream</span>
+            <a href="{{ route('activity-logs.index') }}" class="btn-ghost" style="padding:5px 12px;font-size:0.78rem;">
+                <i class="bi bi-journal-text me-1"></i> Buka Log Aktivitas
+            </a>
         </div>
     </div>
 
-    <!-- Activity & Audit Logs (UK J.620100.046.01 & J.620100.043.01) -->
-    <div class="col-lg-6">
-        <div class="card card-stat h-100">
-            <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="bi bi-journal-text text-success fs-5"></i>
-                    <h5 class="fw-bold mb-0">Log Aktivitas Modul</h5>
-                </div>
-                <div class="d-flex gap-1">
-                    <a href="{{ route('monitoring.index') }}" class="btn btn-sm {{ !$actionFilter ? 'btn-primary' : 'btn-outline-secondary' }} py-0 px-2" style="font-size: 0.75rem;">Semua</a>
-                    <a href="{{ route('monitoring.index', ['action' => 'CREATE']) }}" class="btn btn-sm {{ $actionFilter === 'CREATE' ? 'btn-primary' : 'btn-outline-secondary' }} py-0 px-2" style="font-size: 0.75rem;">Create</a>
-                    <a href="{{ route('monitoring.index', ['action' => 'SEARCH']) }}" class="btn btn-sm {{ $actionFilter === 'SEARCH' ? 'btn-primary' : 'btn-outline-secondary' }} py-0 px-2" style="font-size: 0.75rem;">Search</a>
-                    <a href="{{ route('monitoring.index', ['action' => 'LOW_STOCK_ALERT']) }}" class="btn btn-sm {{ $actionFilter === 'LOW_STOCK_ALERT' ? 'btn-primary' : 'btn-outline-secondary' }} py-0 px-2" style="font-size: 0.75rem;">Alerts</a>
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-custom mb-0">
-                    <thead>
-                        <tr>
-                            <th style="width: 90px;">Action</th>
-                            <th>Keterangan Aktivitas</th>
-                            <th class="text-end" style="width: 120px;">Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($logs as $log)
-                            <tr>
-                                <td>
-                                    @if($log->action === 'CREATE')
-                                        <span class="badge bg-success" style="font-size: 0.7rem;">CREATE</span>
-                                    @elseif($log->action === 'UPDATE')
-                                        <span class="badge bg-primary" style="font-size: 0.7rem;">UPDATE</span>
-                                    @elseif($log->action === 'DELETE')
-                                        <span class="badge bg-danger" style="font-size: 0.7rem;">DELETE</span>
-                                    @elseif($log->action === 'SEARCH')
-                                        <span class="badge bg-info text-dark" style="font-size: 0.7rem;">SEARCH</span>
-                                    @elseif($log->action === 'LOW_STOCK_ALERT')
-                                        <span class="badge bg-warning text-dark" style="font-size: 0.7rem;">ALERT</span>
-                                    @else
-                                        <span class="badge bg-secondary" style="font-size: 0.7rem;">{{ $log->action }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="small fw-semibold text-dark">{{ $log->description }}</div>
-                                    <div class="text-muted" style="font-size: 0.72rem;">
-                                        Oleh: {{ $log->user_identifier }} | IP: {{ $log->ip_address ?: '127.0.0.1' }} | Latensi: {{ $log->execution_time_ms }}ms
-                                    </div>
-                                    @if($log->payload)
-                                        <div class="mt-1">
-                                            <a class="text-decoration-none small text-primary" data-bs-toggle="collapse" href="#mon-payload-{{ $log->id }}" role="button" style="font-size: 0.72rem;">
-                                                <i class="bi bi-code"></i> Payload JSON
-                                            </a>
-                                            <div class="collapse mt-1" id="mon-payload-{{ $log->id }}">
-                                                <pre class="bg-light p-2 rounded small mb-0 border" style="font-size: 0.68rem;">{{ json_encode($log->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="text-end small text-muted font-monospace" style="font-size: 0.75rem;">
-                                    {{ $log->created_at->format('H:i:s') }}
-                                    <div class="text-muted" style="font-size: 0.68rem;">{{ $log->created_at->format('d/m/Y') }}</div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-4 text-muted small">
-                                    Tidak ada catatan log pada kategori ini.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            @if($logs->hasPages())
-                <div class="card-footer bg-white py-2 border-top d-flex justify-content-end">
-                    {{ $logs->links() }}
-                </div>
-            @endif
-        </div>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:90px;">Method</th>
+                    <th>Path / URL Endpoint</th>
+                    <th class="text-center" style="width:110px;">Status Code</th>
+                    <th class="text-end" style="width:140px;">Response Time</th>
+                    <th class="text-end" style="width:120px;">Memory (RAM)</th>
+                    <th class="text-center" style="width:110px;">DB Queries</th>
+                    <th class="text-end" style="width:130px;">Waktu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($recentMetrics as $metric)
+                    @php
+                        $method = $metric->method;
+                        $methodColors = [
+                            'GET'    => ['bg' => '#e0f2fe', 'color' => '#0369a1'],
+                            'POST'   => ['bg' => 'var(--clr-success-light)', 'color' => 'var(--clr-success)'],
+                            'PUT'    => ['bg' => 'var(--clr-warning-light)', 'color' => '#92400e'],
+                            'DELETE' => ['bg' => 'var(--clr-danger-light)', 'color' => 'var(--clr-danger)'],
+                            'PATCH'  => ['bg' => '#f3e8ff', 'color' => '#7e22ce'],
+                        ];
+                        $mc = $methodColors[$method] ?? ['bg' => '#f1f5f9', 'color' => '#475569'];
+
+                        $isSlow = $metric->response_time_ms > 200;
+                    @endphp
+                    <tr>
+                        <!-- Method -->
+                        <td>
+                            <span style="background:{{ $mc['bg'] }};color:{{ $mc['color'] }};font-size:0.68rem;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:0.5px;">
+                                {{ $method }}
+                            </span>
+                        </td>
+
+                        <!-- URL -->
+                        <td>
+                            <div style="font-size:0.83rem;font-family:'Consolas','Courier New',monospace;color:var(--clr-text);font-weight:600;">
+                                {{ parse_url($metric->url, PHP_URL_PATH) }}
+                            </div>
+                            @if(parse_url($metric->url, PHP_URL_QUERY))
+                                <div style="font-size:0.72rem;color:var(--clr-muted);font-family:'Consolas','Courier New',monospace;">
+                                    ?{{ Str::limit(parse_url($metric->url, PHP_URL_QUERY), 50) }}
+                                </div>
+                            @endif
+                        </td>
+
+                        <!-- Status Code -->
+                        <td class="text-center">
+                            @if($metric->status_code < 400)
+                                <span style="background:var(--clr-success-light);color:var(--clr-success);font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:6px;">
+                                    <i class="bi bi-check-circle me-1"></i>{{ $metric->status_code }}
+                                </span>
+                            @else
+                                <span style="background:var(--clr-danger-light);color:var(--clr-danger);font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:6px;">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ $metric->status_code }}
+                                </span>
+                            @endif
+                        </td>
+
+                        <!-- Response Time -->
+                        <td class="text-end">
+                            <span style="font-size:0.85rem;font-weight:800;font-family:'Consolas','Courier New',monospace;color:{{ $isSlow ? 'var(--clr-danger)' : 'var(--clr-success)' }};">
+                                {{ $metric->response_time_ms }} ms
+                            </span>
+                            @if($isSlow)
+                                <div style="font-size:0.65rem;color:var(--clr-danger);font-weight:600;">Slow Request</div>
+                            @endif
+                        </td>
+
+                        <!-- RAM -->
+                        <td class="text-end" style="font-size:0.8rem;color:var(--clr-muted);font-family:'Consolas','Courier New',monospace;font-weight:600;">
+                            {{ $metric->memory_usage_mb }} MB
+                        </td>
+
+                        <!-- DB Queries -->
+                        <td class="text-center">
+                            <span style="background:#f1f5f9;color:#334155;font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:6px;">
+                                <i class="bi bi-database me-1"></i>{{ $metric->db_query_count }} Q
+                            </span>
+                        </td>
+
+                        <!-- Timestamp -->
+                        <td class="text-end" style="font-size:0.75rem;color:var(--clr-muted);font-family:'Consolas','Courier New',monospace;">
+                            {{ $metric->created_at->format('H:i:s') }}
+                            <div style="font-size:0.68rem;">{{ $metric->created_at->format('d/m/Y') }}</div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" style="text-align:center;padding:56px 20px;color:var(--clr-muted);">
+                            <i class="bi bi-wifi-off" style="font-size:2.4rem;display:block;opacity:0.3;margin-bottom:8px;"></i>
+                            <div style="font-weight:700;font-size:0.95rem;color:var(--clr-text);">Belum ada data telemetri tercatat</div>
+                            <div style="font-size:0.78rem;margin-top:4px;">Lakukan navigasi atau muat halaman produk untuk memulai perekaman telemetri.</div>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection

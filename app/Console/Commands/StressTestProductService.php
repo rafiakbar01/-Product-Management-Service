@@ -28,14 +28,14 @@ class StressTestProductService extends Command
     {
         $totalRequests = (int) $this->option('requests');
         $this->info("==================================================================");
-        $this->info("      BNSP SENIOR PROGRAMMER - PENGUJIAN STRESS & LOAD TEST       ");
+        $this->info("     PENGUJIAN STRESS & LOAD TEST       ");
         $this->info("==================================================================");
         $this->line("Target Operasi : Multi-criteria Search & Product Query Filtering");
         $this->line("Jumlah Iterasi : {$totalRequests} request");
         $this->line("Database Engine: MySQL (InnoDb with Composite Indexing)");
         $this->newLine();
 
-        $keywords = ['Laptop', 'Mouse', 'Monitor', 'Lisensi', 'Kopi', 'Kursi', 'NonExistentProduct'];
+        $keywords = ['Laptop', 'Mouse', 'Monitor', 'Lisensi', 'Server', 'Kursi', 'NonExistentProduct'];
         $categories = Category::pluck('id')->toArray();
 
         $latencies = [];
@@ -107,9 +107,9 @@ class StressTestProductService extends Command
 
         $this->info("Kesimpulan Evaluasi Performa:");
         if ($avg < 50.0 && $errorCount === 0) {
-            $this->info("✓ SANGAT OPTIMAL: Response time berada di bawah 50ms berkat Composite Indexing pada tabel MySQL.");
+            $this->info("✓ MEMENUHI SLA: Rata-rata latensi {$avg} ms (< 50 ms) & Error Rate 0% — Indeks B-Tree Komposit berhasil mengeliminasi Full Table Scan.");
         } else {
-            $this->warn("! Perlu optimasi lebih lanjut (misal: Redis Caching query).");
+            $this->warn("! MELEBIHI THRESHOLD: Latensi {$avg} ms melampaui batas toleransi — Direkomendasikan penerapan Query Caching (Redis/Memcached).");
         }
 
         return Command::SUCCESS;
