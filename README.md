@@ -85,8 +85,6 @@ bnsp-project/
 │   ├── 03_LAPORAN_PENGUJIAN.md
 │   ├── 04_ANALISIS_DAMPAK_DAN_CODE_REVIEW.md
 │   └── 05_PANDUAN_IMPLEMENTASI.md
-├── presentation/
-│   └── index.html             # 🖥️ Slide Presentasi Interaktif (30 Menit)
 ├── screenshots/               # 📸 Folder Tangkapan Layar Dokumentasi
 └── routes/web.php             # Rute Web, API v1, dan Presentasi
 ```
