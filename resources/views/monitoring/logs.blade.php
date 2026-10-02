@@ -104,7 +104,7 @@
                             class="text-decoration-none"
                             style="font-size:0.75rem;font-weight:600;padding:6px 12px;border-radius:20px;transition:all 0.15s;
                             {{ $isSelected 
-                                ? 'background:var(--clr-primary);color:#fff;border:1px solid var(--clr-primary);box-shadow:0 2px 8px rgba(224,123,0,0.3);' 
+                                ? 'background:var(--clr-primary);color:#fff;border:1px solid var(--clr-primary);box-shadow:0 2px 8px rgba(2,132,199,0.3);' 
                                 : 'background:var(--clr-surface);color:var(--clr-muted);border:1px solid var(--clr-border);' }}">
                             {{ $info[0] }} <span style="opacity:0.75;font-size:0.7rem;margin-left:2px;">({{ $info[1] }})</span>
                         </a>
@@ -204,14 +204,14 @@
                                         <i class="bi bi-code-square"></i> Lihat Payload Perubahan JSON
                                     </button>
                                     <div id="payload-{{ $log->id }}" style="display:none;margin-top:8px;">
-                                        <div style="background:#1c1008;border:1px solid rgba(224,123,0,0.25);border-radius:10px;padding:12px;position:relative;">
+                                        <div style="background:#0f172a;border:1px solid #334155;border-radius:10px;padding:12px;position:relative;">
                                             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:4px;">
-                                                <span style="font-size:0.68rem;color:#f59e0b;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">Snapshot Payload Data</span>
-                                                <button type="button" onclick="copyJson('json-pre-{{ $log->id }}', this)" style="background:rgba(255,255,255,0.08);border:none;color:#fff;border-radius:4px;padding:2px 8px;font-size:0.65rem;cursor:pointer;">
+                                                <span style="font-size:0.68rem;color:#34d399;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">Snapshot Payload Data</span>
+                                                <button type="button" onclick="copyJson('json-pre-{{ $log->id }}', this)" style="background:rgba(255,255,255,0.1);border:none;color:#fff;border-radius:4px;padding:2px 8px;font-size:0.65rem;cursor:pointer;">
                                                     <i class="bi bi-clipboard"></i> Salin
                                                 </button>
                                             </div>
-                                            <pre id="json-pre-{{ $log->id }}" style="margin:0;font-size:0.72rem;color:#fdf0dc;font-family:'Consolas','Courier New',monospace;line-height:1.4;max-height:220px;overflow:auto;">{{ json_encode($log->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) }}</pre>
+                                            <pre id="json-pre-{{ $log->id }}" style="margin:0;font-size:0.72rem;color:#e2e8f0;font-family:'Consolas','Courier New',monospace;line-height:1.4;max-height:220px;overflow:auto;">{{ json_encode($log->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) }}</pre>
                                         </div>
                                     </div>
                                 </div>

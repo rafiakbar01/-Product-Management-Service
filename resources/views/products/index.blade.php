@@ -264,21 +264,21 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius:18px;border:1px solid var(--clr-border);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.15);">
             <!-- Modal Header -->
-            <div style="background:#1c1008;padding:20px 26px;border-bottom:1px solid rgba(224,123,0,0.25);display:flex;align-items:center;justify-content:space-between;">
+            <div style="background:var(--clr-surface);padding:20px 26px;border-bottom:1px solid var(--clr-border);display:flex;align-items:center;justify-content:space-between;">
                 <div class="d-flex align-items-center gap-3">
-                    <span style="width:38px;height:38px;background:var(--clr-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;">
+                    <span style="width:38px;height:38px;background:var(--clr-primary-light);border:1px solid var(--clr-border);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--clr-primary);font-size:1.1rem;">
                         <i class="bi bi-plus-lg"></i>
                     </span>
                     <div>
-                        <h5 class="modal-title m-0" id="createProductModalLabel" style="color:#fdf0dc;font-weight:700;font-size:1.05rem;">
+                        <h5 class="modal-title m-0" id="createProductModalLabel" style="color:var(--clr-text);font-weight:700;font-size:1.05rem;">
                             Tambah Produk Baru
                         </h5>
-                        <p class="m-0" style="color:rgba(255,255,255,0.5);font-size:0.75rem;">
+                        <p class="m-0" style="color:var(--clr-muted);font-size:0.75rem;">
                             Lengkapi parameter inventaris untuk mendaftarkan SKU baru
                         </p>
                     </div>
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!-- Modal Form -->
@@ -416,24 +416,24 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius:18px;border:1px solid var(--clr-border);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.15);">
             <!-- Modal Header -->
-            <div style="background:#1c1008;padding:20px 26px;border-bottom:1px solid rgba(224,123,0,0.25);display:flex;align-items:center;justify-content:space-between;">
+            <div style="background:var(--clr-surface);padding:20px 26px;border-bottom:1px solid var(--clr-border);display:flex;align-items:center;justify-content:space-between;">
                 <div class="d-flex align-items-center gap-3">
-                    <span style="width:38px;height:38px;background:var(--clr-gold);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;">
+                    <span style="width:38px;height:38px;background:var(--clr-gold-light);border:1px solid var(--clr-border);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--clr-primary);font-size:1.1rem;">
                         <i class="bi bi-pencil-square"></i>
                     </span>
                     <div>
                         <div class="d-flex align-items-center gap-2">
-                            <h5 class="modal-title m-0" id="editProductModalLabel" style="color:#fdf0dc;font-weight:700;font-size:1.05rem;">
+                            <h5 class="modal-title m-0" id="editProductModalLabel" style="color:var(--clr-text);font-weight:700;font-size:1.05rem;">
                                 Edit Data Produk
                             </h5>
-                            <span id="editBadgeId" class="badge" style="background:rgba(224,123,0,0.25);color:#f59e0b;border:1px solid rgba(224,123,0,0.3);font-size:0.7rem;">ID #—</span>
+                            <span id="editBadgeId" class="badge" style="background:var(--clr-primary-light);color:var(--clr-primary-dark);border:1px solid var(--clr-border);font-size:0.7rem;">ID #—</span>
                         </div>
-                        <p class="m-0" id="editHeaderSubtitle" style="color:rgba(255,255,255,0.5);font-size:0.75rem;">
+                        <p class="m-0" id="editHeaderSubtitle" style="color:var(--clr-muted);font-size:0.75rem;">
                             Perbarui rincian inventaris dan harga jual
                         </p>
                     </div>
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!-- Modal Form -->
@@ -566,23 +566,23 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius:18px;border:1px solid var(--clr-border);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.15);">
             <!-- Modal Header -->
-            <div style="background:#1c1008;padding:22px 26px;border-bottom:1px solid rgba(224,123,0,0.25);display:flex;align-items:center;justify-content:space-between;">
+            <div style="background:var(--clr-surface);padding:22px 26px;border-bottom:1px solid var(--clr-border);display:flex;align-items:center;justify-content:space-between;">
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-1">
-                        <span id="viewSkuChip" class="sku-chip" style="background:rgba(224,123,0,0.2);color:#f59e0b;border-color:rgba(224,123,0,0.3);font-size:0.75rem;">
+                        <span id="viewSkuChip" class="sku-chip" style="font-size:0.75rem;">
                             SKU-—
                         </span>
                         <span id="viewStatusBadge" class="badge-status badge-active">Aktif</span>
                         <span id="viewTypeChip" class="type-chip">Fisik</span>
                     </div>
-                    <h4 class="m-0" id="viewProductName" style="color:#fdf0dc;font-weight:800;font-size:1.25rem;font-family:var(--font-display);">
+                    <h4 class="m-0" id="viewProductName" style="color:var(--clr-text);font-weight:800;font-size:1.25rem;font-family:var(--font-display);">
                         Nama Produk
                     </h4>
-                    <div style="color:rgba(255,255,255,0.45);font-size:0.78rem;margin-top:2px;">
-                        Kategori: <span id="viewCategoryName" style="color:#fdd996;font-weight:600;">—</span>
+                    <div style="color:var(--clr-muted);font-size:0.78rem;margin-top:2px;">
+                        Kategori: <span id="viewCategoryName" style="color:var(--clr-primary);font-weight:600;">—</span>
                     </div>
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!-- Modal Body -->
@@ -699,7 +699,7 @@
                     Apakah Anda yakin ingin menghapus produk <strong id="deleteProductName" class="text-dark"></strong>?
                 </p>
                 <div style="background:var(--clr-primary-light);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:0.78rem;color:var(--clr-primary-dark);">
-                    <i class="bi bi-info-circle me-1"></i> Data akan di-soft delete — riwayat audit trail tetap tersimpan untuk forensic logging.
+                    <i class="bi bi-info-circle me-1"></i> Data akan diHapus.
                 </div>
             </div>
             <div class="modal-footer" style="border-top:1px solid var(--clr-border);padding:14px 22px;gap:8px;">

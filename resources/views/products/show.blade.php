@@ -5,17 +5,17 @@
 
 @section('content')
 <!-- Hero Header -->
-<div style="background:#1c1008;border:1px solid rgba(224,123,0,0.2);border-radius:16px;padding:28px 32px;margin-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
+<div class="card-glass p-4 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
     <div>
-        <span class="sku-chip" style="background:rgba(224,123,0,0.2);color:#f59e0b;border-color:rgba(224,123,0,0.3);margin-bottom:10px;display:inline-block;">{{ $product->sku }}</span>
-        <h1 style="font-family:var(--font-display);font-size:1.5rem;color:#fdf0dc;margin:0;font-weight:800;">{{ $product->name }}</h1>
-        <p style="color:rgba(255,255,255,0.4);font-size:0.82rem;margin:6px 0 0;">{{ $product->category->name }} · {{ ucfirst($product->product_type) }}</p>
+        <span class="sku-chip mb-2 d-inline-block">{{ $product->sku }}</span>
+        <h1 style="font-family:var(--font-display);font-size:1.5rem;color:var(--clr-text);margin:0;font-weight:800;">{{ $product->name }}</h1>
+        <p style="color:var(--clr-muted);font-size:0.85rem;margin:6px 0 0;">{{ $product->category->name }} · {{ ucfirst($product->product_type) }}</p>
     </div>
     <div class="d-flex gap-2 flex-wrap">
         <a href="{{ route('products.edit', $product->id) }}" class="btn-primary-custom">
             <i class="bi bi-pencil-fill"></i> Edit Produk
         </a>
-        <a href="{{ route('products.index') }}" class="btn-ghost" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">
+        <a href="{{ route('products.index') }}" class="btn-ghost">
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
@@ -122,7 +122,7 @@
                                     style="font-size:0.7rem;color:var(--clr-primary);font-weight:600;text-decoration:none;display:inline-block;margin-top:4px;">
                                     <i class="bi bi-code-slash"></i> Payload JSON
                                 </a>
-                                <pre style="display:none;background:#fdf9f2;border:1px solid var(--clr-border);border-radius:8px;padding:10px;font-size:0.68rem;margin-top:6px;overflow-x:auto;line-height:1.4;">{{ json_encode($log->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
+                                <pre style="display:none;background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:8px;padding:10px;font-size:0.68rem;margin-top:6px;overflow-x:auto;line-height:1.4;">{{ json_encode($log->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                             @endif
                         </div>
                     </div>

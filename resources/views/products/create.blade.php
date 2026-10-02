@@ -141,25 +141,25 @@
     <!-- Right Column: Tips -->
     <div class="col-lg-4">
         <div style="position:sticky;top:88px;">
-            <div class="card-glass p-4" style="background:#1c1008;border-color:rgba(224,123,0,0.2);">
-                <div style="color:#fdd996;font-weight:700;font-size:0.85rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-                    <i class="bi bi-lightbulb-fill" style="color:#f59e0b;"></i> Tips Pengisian
+            <div class="card-glass p-4">
+                <div style="color:var(--clr-text);font-weight:700;font-size:0.85rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    <i class="bi bi-lightbulb-fill" style="color:var(--clr-primary);"></i> Tips Pengisian
                 </div>
-                <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.7;">
+                <div style="font-size:0.78rem;color:var(--clr-muted);line-height:1.7;">
                     <div class="mb-3">
-                        <span style="color:#f59e0b;font-weight:600;">SKU (Stock Keeping Unit)</span><br>
-                        Gunakan format PREFIX-NOMOR, misal <code style="background:rgba(224,123,0,0.2);padding:1px 5px;border-radius:4px;color:#fdd996;">ELC-001</code>. Klik tombol Auto untuk generate otomatis.
+                        <span style="color:var(--clr-primary);font-weight:600;">SKU (Stock Keeping Unit)</span><br>
+                        Gunakan format PREFIX-NOMOR, misal <code style="background:var(--clr-primary-light);padding:1px 5px;border-radius:4px;color:var(--clr-primary-dark);">ELC-001</code>. Klik tombol Auto untuk generate otomatis.
                     </div>
                     <div class="mb-3">
-                        <span style="color:#f59e0b;font-weight:600;">Harga Modal (COGS)</span><br>
+                        <span style="color:var(--clr-primary);font-weight:600;">Harga Modal (COGS)</span><br>
                         Opsional, digunakan untuk kalkulasi margin keuntungan pada laporan bisnis.
                     </div>
                     <div class="mb-3">
-                        <span style="color:#f59e0b;font-weight:600;">Alert Minimum Stok</span><br>
+                        <span style="color:var(--clr-primary);font-weight:600;">Alert Minimum Stok</span><br>
                         Sistem akan otomatis memicu notifikasi peringatan jika stok menyentuh atau melewati batas ini.
                     </div>
                     <div>
-                        <span style="color:#f59e0b;font-weight:600;">Tipe Produk</span><br>
+                        <span style="color:var(--clr-primary);font-weight:600;">Tipe Produk</span><br>
                         Pisahkan antara barang fisik, lisensi software/digital, dan layanan konsultasi untuk pelaporan yang akurat.
                     </div>
                 </div>

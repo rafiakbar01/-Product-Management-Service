@@ -156,7 +156,7 @@ class ProductApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Produk berhasil dihapus (soft delete).',
+            'message' => 'Produk berhasil dihapus.',
         ]);
     }
 
