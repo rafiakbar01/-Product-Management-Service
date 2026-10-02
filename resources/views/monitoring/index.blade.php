@@ -163,7 +163,6 @@
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <span class="status-dot">Live Stream</span>
             <a href="{{ route('activity-logs.index') }}" class="btn-ghost" style="padding:5px 12px;font-size:0.78rem;">
                 <i class="bi bi-journal-text me-1"></i> Buka Log Aktivitas
             </a>

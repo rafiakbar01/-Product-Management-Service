@@ -166,7 +166,6 @@
                             'category_name' => $product->category->name ?? '—',
                             'product_type' => $product->product_type,
                             'price' => (float) $product->price,
-                            'cost_price' => $product->cost_price ? (float) $product->cost_price : null,
                             'stock' => (int) $product->stock,
                             'min_stock_alert' => (int) $product->min_stock_alert,
                             'status' => $product->status,
@@ -350,7 +349,7 @@
                     <div class="card-glass p-3 mb-3">
                         <div class="form-section-title"><i class="bi bi-cash-stack"></i> Harga &amp; Pengelolaan Stok</div>
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label-custom">Harga Jual <span style="color:var(--clr-danger)">*</span></label>
                                 <div class="input-prefix">
                                     <span class="prefix-label">Rp</span>
@@ -358,13 +357,7 @@
                                 </div>
                                 @if(!old('_edit_id')) @error('price')<div class="invalid-msg">{{ $message }}</div>@enderror @endif
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Harga Modal / COGS (Opsional)</label>
-                                <div class="input-prefix">
-                                    <span class="prefix-label">Rp</span>
-                                    <input type="number" min="0" step="0.01" name="cost_price" value="{{ !old('_edit_id') ? old('cost_price') : '' }}" placeholder="100000">
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <label class="form-label-custom">Stok Awal <span style="color:var(--clr-danger)">*</span></label>
                                 <input type="number" min="0" name="stock" class="form-control-custom"
@@ -501,7 +494,7 @@
                     <div class="card-glass p-3 mb-3">
                         <div class="form-section-title"><i class="bi bi-cash-stack"></i> Harga &amp; Pengelolaan Stok</div>
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label-custom">Harga Jual <span style="color:var(--clr-danger)">*</span></label>
                                 <div class="input-prefix">
                                     <span class="prefix-label">Rp</span>
@@ -509,13 +502,7 @@
                                 </div>
                                 @if(old('_edit_id')) @error('price')<div class="invalid-msg">{{ $message }}</div>@enderror @endif
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Harga Modal / COGS (Opsional)</label>
-                                <div class="input-prefix">
-                                    <span class="prefix-label">Rp</span>
-                                    <input type="number" min="0" step="0.01" name="cost_price" id="editCostPrice" value="{{ old('_edit_id') ? old('cost_price') : '' }}">
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <label class="form-label-custom">Stok Tersedia <span style="color:var(--clr-danger)">*</span></label>
                                 <input type="number" min="0" name="stock" id="editStock" class="form-control-custom"
@@ -611,18 +598,10 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <div class="card-glass p-3 h-100">
-                            <div class="form-section-title mb-2"><i class="bi bi-currency-dollar"></i> Parameter Harga</div>
-                            <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:0.83rem;">
-                                <span class="text-muted">Harga Jual Konsumen:</span>
-                                <strong id="viewPrice" style="color:var(--clr-primary);font-size:0.95rem;">Rp —</strong>
-                            </div>
-                            <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:0.83rem;">
-                                <span class="text-muted">Harga Modal (COGS):</span>
-                                <span id="viewCostPrice" style="font-weight:600;">Rp —</span>
-                            </div>
+                            <div class="form-section-title mb-2"><i class="bi bi-currency-dollar"></i> Harga Jual</div>
                             <div class="d-flex justify-content-between py-2" style="font-size:0.83rem;">
-                                <span class="text-muted">Estimasi Margin:</span>
-                                <span id="viewMargin" style="font-weight:700;color:var(--clr-success);">—</span>
+                                <span class="text-muted">Harga Jual / Nilai Aset:</span>
+                                <strong id="viewPrice" style="color:var(--clr-primary);font-size:0.95rem;">Rp —</strong>
                             </div>
                         </div>
                     </div>
@@ -779,7 +758,6 @@
         document.getElementById('editSku').value = product.sku;
         document.getElementById('editCategory').value = product.category_id;
         document.getElementById('editPrice').value = product.price;
-        document.getElementById('editCostPrice').value = product.cost_price || '';
         document.getElementById('editStock').value = product.stock;
         document.getElementById('editMinStock').value = product.min_stock_alert;
         document.getElementById('editStatus').value = product.status;
@@ -862,20 +840,9 @@
             stockNumber.style.color = 'var(--clr-success)';
         }
 
-        // Pricing & Margin
+        // Pricing
         const formattedPrice = 'Rp ' + Number(product.price).toLocaleString('id-ID');
         document.getElementById('viewPrice').innerText = formattedPrice;
-
-        if (product.cost_price && Number(product.cost_price) > 0) {
-            const formattedCost = 'Rp ' + Number(product.cost_price).toLocaleString('id-ID');
-            document.getElementById('viewCostPrice').innerText = formattedCost;
-            const marginRp = Number(product.price) - Number(product.cost_price);
-            const marginPct = ((marginRp / Number(product.price)) * 100).toFixed(1);
-            document.getElementById('viewMargin').innerHTML = `+Rp ${marginRp.toLocaleString('id-ID')} (${marginPct}%)`;
-        } else {
-            document.getElementById('viewCostPrice').innerText = '—';
-            document.getElementById('viewMargin').innerText = '—';
-        }
 
         document.getElementById('viewMinStockAlert').innerText = `≤ ${product.min_stock_alert} unit`;
         document.getElementById('viewCreatedAt').innerText = product.created_at_fmt || '—';

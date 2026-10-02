@@ -12,12 +12,6 @@
 <!-- Page Header -->
 <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
     <div>
-        <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge" style="background:var(--clr-primary-light);color:var(--clr-primary);font-size:0.72rem;font-weight:700;padding:4px 8px;border-radius:6px;">
-                UK J.620100.043.01 &amp; .046.01
-            </span>
-            <span style="font-size:0.78rem;color:var(--clr-muted);">Audit Trail &amp; Forensic Logging</span>
-        </div>
         <h1 class="page-heading">Log Aktivitas &amp; Riwayat Audit</h1>
         <p class="page-sub mb-0">Rekaman kronologis lengkap setiap aksi modul: mutasi inventaris, pencarian, dan peringatan sistem.</p>
     </div>

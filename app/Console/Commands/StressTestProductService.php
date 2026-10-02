@@ -35,7 +35,22 @@ class StressTestProductService extends Command
         $this->line("Database Engine: MySQL (InnoDb with Composite Indexing)");
         $this->newLine();
 
-        $keywords = ['Laptop', 'Mouse', 'Monitor', 'Lisensi', 'Server', 'Kursi', 'NonExistentProduct'];
+        // Keywords disesuaikan dengan nama produk aktual di database:
+        // - Infrastruktur Jaringan : "UniFi", "Switch", "Gateway"
+        // - Lisensi Software       : "Lisensi", "JetBrains", "Figma", "Google Workspace"
+        // - Layanan IT             : "Kontrak", "Pemeliharaan", "Server"
+        // - Fasilitas Kantor       : "Kursi", "Meja", "Standing Desk"
+        // - Konferensi             : "Polycom", "Video Bar"
+        // - Edge case              : keyword yang tidak cocok produk apapun
+        $keywords = [
+            'UniFi', 'Switch', 'Gateway',               // Infrastruktur Jaringan & Server
+            'Lisensi', 'JetBrains', 'Figma',            // Lisensi Software & Cloud SaaS
+            'Google Workspace', 'Langganan',             // Cloud SaaS
+            'Kontrak', 'Pemeliharaan', 'Server',         // Layanan & Dukungan IT Enterprise
+            'Kursi', 'Meja', 'Standing Desk',            // Fasilitas & Ergonomi Kantor
+            'Polycom', 'Video Bar',                      // Perangkat Konferensi
+            'NonExistentProduct',                        // Edge case: zero-result query
+        ];
         $categories = Category::pluck('id')->toArray();
 
         $latencies = [];

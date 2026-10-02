@@ -36,7 +36,7 @@ class ProductSystemTest extends TestCase
     {
         $response = $this->get('/products');
         $response->assertStatus(200);
-        $response->assertSee('Pengelolaan Data Produk (CRUD)');
+        $response->assertSee('Master Katalog Inventaris IT Kantor');
     }
 
     /**

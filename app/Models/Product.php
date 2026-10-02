@@ -26,7 +26,6 @@ class Product extends Model
         'description',
         'product_type',
         'price',
-        'cost_price',
         'stock',
         'min_stock_alert',
         'status',
@@ -35,7 +34,6 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'cost_price' => 'decimal:2',
         'stock' => 'integer',
         'min_stock_alert' => 'integer',
         'attributes' => 'array',
