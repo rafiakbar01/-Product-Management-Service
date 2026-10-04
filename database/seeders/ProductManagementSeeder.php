@@ -101,6 +101,12 @@ class ProductManagementSeeder extends Seeder
                 $stock = rand(0, 50);
                 $minAlert = rand(3, 8);
                 $status = (rand(1, 20) === 1) ? 'inactive' : 'active';
+                
+                $expiresAt = null;
+                if ($type === 'digital' || $type === 'service') {
+                    $expiresAtDays = rand(30, 730); // 1 bulan s/d 2 tahun
+                    $expiresAt = now()->addDays($expiresAtDays)->toDateString();
+                }
 
                 $generatedProducts[] = [
                     'category_id' => $catId,
@@ -113,6 +119,7 @@ class ProductManagementSeeder extends Seeder
                     'stock' => $stock,
                     'min_stock_alert' => $minAlert,
                     'status' => $status,
+                    'expires_at' => $expiresAt,
                 ];
 
                 $counter++;

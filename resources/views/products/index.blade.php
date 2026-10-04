@@ -169,6 +169,10 @@
                             'stock' => (int) $product->stock,
                             'min_stock_alert' => (int) $product->min_stock_alert,
                             'status' => $product->status,
+                            'expires_at' => $product->expires_at ? $product->expires_at->format('Y-m-d') : null,
+                            'expires_at_fmt' => $product->expires_at ? $product->expires_at->format('d M Y') : null,
+                            'is_expired' => $product->isExpired(),
+                            'is_expiring_soon' => $product->isExpiringSoon(30),
                             'description' => $product->description ?? '',
                             'created_at_fmt' => $product->created_at ? $product->created_at->format('d M Y, H:i') : '—',
                             'updated_at_fmt' => $product->updated_at ? $product->updated_at->format('d M Y, H:i') : '—',
@@ -377,6 +381,12 @@
                                     <option value="draft" {{ (!old('_edit_id') && old('status') == 'draft') ? 'selected' : '' }}>Draft</option>
                                 </select>
                             </div>
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Tanggal Kedaluwarsa / Kontrak Berakhir (Opsional)</label>
+                                <input type="date" name="expires_at" class="form-control-custom"
+                                    value="{{ !old('_edit_id') ? old('expires_at') : '' }}">
+                                <small style="color:var(--clr-muted);display:block;margin-top:4px;">Gunakan untuk lisensi/SaaS yang memiliki masa kedaluwarsa (misal: Microsoft 365, Figma)</small>
+                            </div>
                         </div>
                     </div>
 
@@ -522,6 +532,12 @@
                                     <option value="draft">Draft</option>
                                 </select>
                             </div>
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Tanggal Kedaluwarsa / Kontrak Berakhir (Opsional)</label>
+                                <input type="date" name="expires_at" id="editExpiresAt" class="form-control-custom"
+                                    value="{{ old('_edit_id') ? old('expires_at') : '' }}">
+                                <small style="color:var(--clr-muted);display:block;margin-top:4px;">Gunakan untuk lisensi/SaaS yang memiliki masa kedaluwarsa</small>
+                            </div>
                         </div>
                     </div>
 
@@ -616,9 +632,13 @@
                                 <span class="text-muted">Tanggal Ditambahkan:</span>
                                 <span id="viewCreatedAt">—</span>
                             </div>
-                            <div class="d-flex justify-content-between py-2" style="font-size:0.83rem;">
+                            <div class="d-flex justify-content-between py-2 border-bottom" style="font-size:0.83rem;">
                                 <span class="text-muted">Terakhir Diperbarui:</span>
                                 <span id="viewUpdatedAt">—</span>
+                            </div>
+                            <div class="d-flex justify-content-between py-2" style="font-size:0.83rem;">
+                                <span class="text-muted">Masa Berlaku Lisensi:</span>
+                                <span id="viewExpiresAt" class="fw-bold">—</span>
                             </div>
                         </div>
                     </div>
@@ -761,6 +781,7 @@
         document.getElementById('editStock').value = product.stock;
         document.getElementById('editMinStock').value = product.min_stock_alert;
         document.getElementById('editStatus').value = product.status;
+        document.getElementById('editExpiresAt').value = product.expires_at || '';
         document.getElementById('editDescription').value = product.description || '';
 
         setEditType(product.product_type || 'physical');
@@ -847,6 +868,20 @@
         document.getElementById('viewMinStockAlert').innerText = `≤ ${product.min_stock_alert} unit`;
         document.getElementById('viewCreatedAt').innerText = product.created_at_fmt || '—';
         document.getElementById('viewUpdatedAt').innerText = product.updated_at_fmt || '—';
+        
+        const expiresAtElement = document.getElementById('viewExpiresAt');
+        if (product.expires_at_fmt) {
+            if (product.is_expired) {
+                expiresAtElement.innerHTML = `<span style="color:var(--clr-danger);">⚠️ Kedaluwarsa: ${product.expires_at_fmt}</span>`;
+            } else if (product.is_expiring_soon) {
+                expiresAtElement.innerHTML = `<span style="color:var(--clr-accent);">⏰ Segera Habis: ${product.expires_at_fmt}</span>`;
+            } else {
+                expiresAtElement.innerText = `✓ ${product.expires_at_fmt}`;
+            }
+        } else {
+            expiresAtElement.innerText = 'Tidak ada (Hardware/Perpetual)';
+        }
+        
         document.getElementById('viewDescription').innerText = product.description || 'Tidak ada deskripsi rinci.';
 
         // Load Activity Logs asynchronously for this product

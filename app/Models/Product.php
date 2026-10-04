@@ -29,6 +29,7 @@ class Product extends Model
         'stock',
         'min_stock_alert',
         'status',
+        'expires_at',
         'attributes',
     ];
 
@@ -36,6 +37,7 @@ class Product extends Model
         'price' => 'decimal:2',
         'stock' => 'integer',
         'min_stock_alert' => 'integer',
+        'expires_at' => 'datetime',
         'attributes' => 'array',
     ];
 
@@ -72,6 +74,25 @@ class Product extends Model
     }
 
     /**
+     * Business Logic: Check if license/subscription has expired
+     */
+    public function isExpired(): bool
+    {
+        return $this->expires_at && $this->expires_at->isPast();
+    }
+
+    /**
+     * Business Logic: Check if license is expiring soon (within 30 days)
+     */
+    public function isExpiringSoon(int $days = 30): bool
+    {
+        if (!$this->expires_at) {
+            return false;
+        }
+        return $this->expires_at->isFuture() && $this->expires_at->diffInDays(now()) <= $days;
+    }
+
+    /**
      * Scope: Filter active products
      */
     public function scopeActive(Builder $query): Builder
@@ -85,6 +106,25 @@ class Product extends Model
     public function scopeLowStock(Builder $query): Builder
     {
         return $query->whereColumn('stock', '<=', 'min_stock_alert');
+    }
+
+    /**
+     * Scope: Filter expired licenses/subscriptions
+     */
+    public function scopeExpired(Builder $query): Builder
+    {
+        return $query->whereNotNull('expires_at')
+                     ->where('expires_at', '<', now());
+    }
+
+    /**
+     * Scope: Filter expiring soon licenses (within specified days)
+     */
+    public function scopeExpiringSoon(Builder $query, int $days = 30): Builder
+    {
+        return $query->whereNotNull('expires_at')
+                     ->where('expires_at', '>', now())
+                     ->where('expires_at', '<=', now()->addDays($days));
     }
 
     /**

@@ -70,6 +70,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'min_stock_alert' => 'required|integer|min:1',
             'status' => 'required|in:active,inactive,draft',
+            'expires_at' => 'nullable|date',
             'description' => 'nullable|string',
         ], [
             'name.required' => 'Nama produk wajib diisi.',
@@ -144,6 +145,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'min_stock_alert' => 'required|integer|min:1',
             'status' => 'required|in:active,inactive,draft',
+            'expires_at' => 'nullable|date',
             'description' => 'nullable|string',
         ], [
             'name.required' => 'Nama produk wajib diisi.',
